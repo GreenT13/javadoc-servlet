@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <form th:action="@{/}" th:object="${formObject}" method="post">
+        <div class="form-group">
+            <label for="formGroupGroupId">Group Id</label>
+            <input type="text" class="form-control" id="formGroupGroupId" placeholder="com.keylane" th:field="*{groupId}">
+        </div>
+        <div class="form-group">
+            <label for="formGroupArtifactId">Artifact Id</label>
+            <input type="text" class="form-control" id="formGroupArtifactId" placeholder="axon-extension-points" th:field="*{artifactId}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <table class="table" th:if="${foundArtifacts} != null">
+        <thead>
+        <tr>
+            <th scope="col">Group Id</th>
+            <th scope="col">Artifact Id</th>
+            <th scope="col">Latest version</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="artifact : ${foundArtifacts}">
+            <td th:text="${artifact.groupId}">Group Id</td>
+            <td th:text="${artifact.artifactId}">Artifact Id</td>
+            <td th:text="${artifact.latestVersion}">Latest version</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
