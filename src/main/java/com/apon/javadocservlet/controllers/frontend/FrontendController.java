@@ -4,7 +4,6 @@ import com.apon.javadocservlet.controllers.ControllerUtil;
 import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
-import com.apon.javadocservlet.repository.impl.local.SingleArtifactTest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +15,11 @@ import java.util.List;
 
 @Controller
 public class FrontendController {
+    private final ArtifactStorage artifactStorage;
+
+    public FrontendController(ArtifactStorage artifactStorage) {
+        this.artifactStorage = artifactStorage;
+    }
 
     @GetMapping("/")
     public String homePage(Model model) {
@@ -29,7 +33,6 @@ public class FrontendController {
         model.addAttribute("formObject", frontendForm);
 
         // Search for an artifact and show them.
-        ArtifactStorage artifactStorage = new SingleArtifactTest();
         List<Artifact> artifacts = artifactStorage.findArtifacts(frontendForm.getGroupId(), frontendForm.getArtifactId());
         model.addAttribute("foundArtifacts", artifacts);
 

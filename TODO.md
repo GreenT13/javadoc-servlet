@@ -12,6 +12,3 @@ if you have a single artifact in multiple repositories?
 
 For testing, it is nice to select multiple, but for actual usage this would probably not be needed. Maybe it should
 be a system configuration which repository you select?
-
-## Implement Maven Central
-Copy code from other project

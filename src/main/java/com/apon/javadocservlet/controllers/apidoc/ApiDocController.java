@@ -3,7 +3,6 @@ package com.apon.javadocservlet.controllers.apidoc;
 import com.apon.javadocservlet.controllers.ControllerUtil;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
-import com.apon.javadocservlet.repository.impl.local.SingleArtifactTest;
 import com.apon.javadocservlet.zip.ZipCache;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,24 +10,31 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Controller
 public class ApiDocController {
-    private final static String GROUP_ID = "one.util";
-    private final static String ARTIFACT_ID = "streamex";
-    private final static String VERSION = "0.7.2";
+    private final ZipCache zipCache;
 
-    private final ArtifactStorage artifactStorage = new SingleArtifactTest();
-    private final ZipCache zipCache = new ZipCache(artifactStorage);
+    public ApiDocController(ArtifactStorage artifactStorage) {
+        this.zipCache = new ZipCache(artifactStorage);
+    }
 
     @GetMapping("/apidoc/**")
     @ResponseBody
     public byte[] getFileInZip(HttpServletRequest request) throws ArtifactSearchException, IOException, ExecutionException {
         String requestUrl = ControllerUtil.getRelativeUrl(request, "/apidoc/");
 
-        Optional<byte[]> optionalFileContent = zipCache.getContentOfFileFromZip(GROUP_ID, ARTIFACT_ID, VERSION, requestUrl);
+        String[] urlSegments = requestUrl.split("/");
+        String groupId = urlSegments[0];
+        String artifactId = urlSegments[1];
+        String version = urlSegments[2];
+        // Path will be the rest of the array.
+        String filePath = String.join("/", Arrays.copyOfRange(urlSegments, 3, urlSegments.length));
+
+        Optional<byte[]> optionalFileContent = zipCache.getContentOfFileFromZip(groupId, artifactId, version, filePath);
         if (optionalFileContent.isEmpty()) {
             throw new ArtifactSearchException("Could not find file.");
         }
