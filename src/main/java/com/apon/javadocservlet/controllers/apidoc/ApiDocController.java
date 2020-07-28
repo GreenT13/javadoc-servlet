@@ -2,14 +2,12 @@ package com.apon.javadocservlet.controllers.apidoc;
 
 import com.apon.javadocservlet.controllers.ControllerUtil;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
-import com.apon.javadocservlet.repository.ArtifactStorage;
 import com.apon.javadocservlet.zip.ZipCache;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -18,13 +16,13 @@ import java.util.concurrent.ExecutionException;
 public class ApiDocController {
     private final ZipCache zipCache;
 
-    public ApiDocController(ArtifactStorage artifactStorage) {
-        this.zipCache = new ZipCache(artifactStorage);
+    public ApiDocController(ZipCache zipCache) {
+        this.zipCache = zipCache;
     }
 
     @GetMapping("/apidoc/**")
     @ResponseBody
-    public byte[] getFileInZip(HttpServletRequest request) throws ArtifactSearchException, IOException, ExecutionException {
+    public byte[] getFileInZip(HttpServletRequest request) throws ArtifactSearchException, ExecutionException {
         String requestUrl = ControllerUtil.getRelativeUrl(request, "/apidoc/");
 
         String[] urlSegments = requestUrl.split("/");

@@ -4,6 +4,7 @@ import com.apon.javadocservlet.repository.ArtifactStorage;
 import com.apon.javadocservlet.repository.impl.local.SingleArtifactTest;
 import com.apon.javadocservlet.repository.impl.mavencentral.MavenCentralRepository;
 import com.apon.javadocservlet.rest.WebserviceClient;
+import com.apon.javadocservlet.zip.ZipCache;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,11 @@ public class JavadocServletApplication {
 	@Bean
 	public ArtifactStorage getArtifactStorage() {
 		return new MavenCentralRepository(new WebserviceClient());
+	}
+
+	@Bean
+	public ZipCache getZipCache(ArtifactStorage artifactStorage) {
+		return new ZipCache(artifactStorage);
 	}
 
 }

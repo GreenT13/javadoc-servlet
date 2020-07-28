@@ -24,7 +24,7 @@ public class SingleArtifactTest implements ArtifactStorage {
     private final static ArtifactVersions ARTIFACT_VERSIONS = new ArtifactVersions(ARTIFACT, Collections.singletonList(new ArtifactVersions.Version(VERSION, true)));
 
     @Override
-    public List<Artifact> findArtifacts(String groupId, String artifactId) throws ArtifactSearchException {
+    public List<Artifact> findArtifacts(String groupId, String artifactId) {
         List<Artifact> artifacts = new ArrayList<>();
 
         if (GROUP_ID.equals(groupId) && ARTIFACT_ID.equals(artifactId)) {
