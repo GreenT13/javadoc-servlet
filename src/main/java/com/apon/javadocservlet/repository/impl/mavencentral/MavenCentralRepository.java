@@ -19,7 +19,7 @@ public class MavenCentralRepository implements ArtifactStorage {
     private final MavenCentralApi mavenCentralApi;
 
     public MavenCentralRepository(WebserviceClient webserviceClient) {
-        this.mavenCentralApi = new MavenCentralApi(new WebserviceClient());
+        this.mavenCentralApi = new MavenCentralApi(webserviceClient);
     }
 
     @Override
