@@ -1,4 +1,4 @@
-package com.apon.javadocservlet.rest;
+package com.apon.javadocservlet.client;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

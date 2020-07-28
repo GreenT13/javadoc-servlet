@@ -1,10 +1,28 @@
 ## Tests
-I have no test classes in general, let's change that!
+Packages to write tests for:
+- [x] controllers
+- [ ] repository
+- [ ] client (probably not doable to write tests for this one?)
+- [x] zip
+
+Other possible tests:
+- [ ] Integration tests with mocked Maven Central
+- [ ] Thymeleaf tests?? https://dzone.com/articles/spring-test-thymeleaf-views
 
 ## UI enhancements
-Thymeleaf templates are cool, but I need to display everything properly!
+- IFrame page:
+  - [ ] Make iframe fill page
+  - [ ] Make header above iframe with version selection
+- Home page:
+  - [ ] Add links in result table to the javadoc if it is available
+  - [ ] Make it possible to select specific versions? Something like a button "Show versions"
+        or something?
+  - [ ] Some CSS and make it a nice looking page
 
-Plus I need to think about what I really want to display on the main page.
+## General thoughts
+- [ ] Display kind of error message when version does not support JavaDoc
+- [ ] Error handling for incorrect URLs
+- [ ] Support for "latest" URLs
 
 ## Integrate repositories
 Create a single ENUM with all repository storages. I think we should maybe integrate them in some way, but what

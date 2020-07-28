@@ -6,7 +6,7 @@ import com.apon.javadocservlet.repository.ArtifactStorage;
 import com.apon.javadocservlet.repository.ArtifactVersions;
 import com.apon.javadocservlet.repository.impl.mavencentral.search.SearchResponse;
 import com.apon.javadocservlet.repository.impl.mavencentral.search.VersionsSearchResponse;
-import com.apon.javadocservlet.rest.WebserviceClient;
+import com.apon.javadocservlet.client.WebserviceClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
