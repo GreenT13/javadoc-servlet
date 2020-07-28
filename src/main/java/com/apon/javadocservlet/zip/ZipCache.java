@@ -44,12 +44,9 @@ public class ZipCache {
      * @param version    The version
      * @param filePath   The relative path of the file inside the zip
      */
-    public Optional<byte[]> getContentOfFileFromZip(String groupId, String artifactId, String version, String filePath) throws IOException, ExecutionException {
+    public Optional<byte[]> getContentOfFileFromZip(String groupId, String artifactId, String version, String filePath) throws ExecutionException {
         ArtifactKey artifactKey = new ArtifactKey(groupId, artifactId, version);
         Map<String, byte[]> zipContent = cachedZipContent.get(artifactKey);
-        if (zipContent == null) {
-            throw new IOException("Could not determine zip content from " + artifactKey.toString());
-        }
 
         if (!zipContent.containsKey(filePath)) {
             return Optional.empty();
@@ -58,7 +55,10 @@ public class ZipCache {
         return Optional.of(zipContent.get(filePath));
     }
 
-    private static class ArtifactKey {
+    /**
+     * Immutable object representing the combination of groupId, artifactId and version of an artifact.
+     */
+    static class ArtifactKey {
         private final String groupId;
         private final String artifactId;
         private final String version;
@@ -82,15 +82,6 @@ public class ZipCache {
         @Override
         public int hashCode() {
             return Objects.hash(groupId, artifactId, version);
-        }
-
-        @Override
-        public String toString() {
-            return "ArtifactKey{" +
-                    "groupId='" + groupId + '\'' +
-                    ", artifactId='" + artifactId + '\'' +
-                    ", version='" + version + '\'' +
-                    '}';
         }
 
         public String getGroupId() {
