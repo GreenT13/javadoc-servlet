@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Artifact {
     private final String groupId;
     private final String artifactId;
-    public final String version;
+    private final String version;
 
     public Artifact(String groupId, String artifactId, String version) {
         this.groupId = groupId;
