@@ -11,8 +11,8 @@ Other possible tests:
 
 ## UI enhancements
 - IFrame page:
-  - [ ] Make iframe fill page
-  - [ ] Make header above iframe with version selection
+  - [x] Make iframe fill page
+  - [x] Make header above iframe with version selection
 - Home page:
   - [ ] Add links in result table to the javadoc if it is available
   - [ ] Make it possible to select specific versions? Something like a button "Show versions"
@@ -23,6 +23,7 @@ Other possible tests:
 - [ ] Display kind of error message when version does not support JavaDoc
 - [ ] Error handling for incorrect URLs
 - [ ] Support for "latest" URLs
+- [ ] Make it possible to run application on non-root URL
 
 ## Integrate repositories
 Create a single ENUM with all repository storages. I think we should maybe integrate them in some way, but what

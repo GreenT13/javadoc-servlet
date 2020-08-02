@@ -7,6 +7,14 @@ import java.util.List;
  * Keylane Artifactory or just a local .m2 directory.
  */
 public interface ArtifactStorage {
+    /**
+     * Find the artifacts for the given groupId and artifactId. The {@link Artifact#getVersion()} will be filled
+     * with the latest version available.
+     * @param groupId The groupId.
+     * @param artifactId The artifactId.
+     * @return List of {@link Artifact} objects.
+     * @throws ArtifactSearchException If something goes wrong.
+     */
     List<Artifact> findArtifacts(String groupId, String artifactId) throws ArtifactSearchException;
 
     ArtifactVersions findArtifactVersions(Artifact artifact) throws ArtifactSearchException;

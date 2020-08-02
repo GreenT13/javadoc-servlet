@@ -63,9 +63,12 @@ class FrontendControllerTest {
     }
 
     @Test
-    public void iframeUrlHasDocReplacedWithApidoc() {
+    public void iframeUrlHasDocReplacedWithApiDoc() throws ArtifactSearchException {
         // Given
-        FrontendController frontendController = new FrontendController(null);
+        ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
+        List<Artifact> artifactList = Collections.singletonList(new Artifact("groupId", "artifactId", "version"));
+        doReturn(artifactList).when(artifactStorage).findArtifacts(anyString(), anyString());
+        FrontendController frontendController = new FrontendController(artifactStorage);
         Model model = mock(Model.class);
         HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
         String afterDocUrl = "value/does/not/matter";

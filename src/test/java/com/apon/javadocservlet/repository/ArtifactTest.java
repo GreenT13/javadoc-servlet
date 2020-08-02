@@ -12,11 +12,11 @@ class ArtifactTest {
         // Given
         String groupId = "groupId";
         String artifactId = "artifactId";
-        String latestVersion = "latestVersion";
+        String version = "version";
 
         // When
-        Artifact artifact1 = new Artifact(groupId, artifactId, latestVersion);
-        Artifact artifact2 = new Artifact(groupId, artifactId, latestVersion);
+        Artifact artifact1 = new Artifact(groupId, artifactId, version);
+        Artifact artifact2 = new Artifact(groupId, artifactId, version);
 
         // Then
         assertThat(artifact1, equalTo(artifact2));

@@ -8,12 +8,12 @@ import java.util.Objects;
 public class Artifact {
     private final String groupId;
     private final String artifactId;
-    public final String latestVersion;
+    public final String version;
 
-    public Artifact(String groupId, String artifactId, String latestVersion) {
+    public Artifact(String groupId, String artifactId, String version) {
         this.groupId = groupId;
         this.artifactId = artifactId;
-        this.latestVersion = latestVersion;
+        this.version = version;
     }
 
     @Override
@@ -23,12 +23,12 @@ public class Artifact {
         Artifact artifact = (Artifact) o;
         return Objects.equals(groupId, artifact.groupId) &&
                 Objects.equals(artifactId, artifact.artifactId) &&
-                Objects.equals(latestVersion, artifact.latestVersion);
+                Objects.equals(version, artifact.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupId, artifactId, latestVersion);
+        return Objects.hash(groupId, artifactId, version);
     }
 
     public String getGroupId() {
@@ -39,7 +39,7 @@ public class Artifact {
         return artifactId;
     }
 
-    public String getLatestVersion() {
-        return latestVersion;
+    public String getVersion() {
+        return version;
     }
 }

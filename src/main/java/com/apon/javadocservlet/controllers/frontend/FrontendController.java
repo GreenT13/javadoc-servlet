@@ -1,9 +1,11 @@
 package com.apon.javadocservlet.controllers.frontend;
 
 import com.apon.javadocservlet.controllers.ControllerUtil;
+import com.apon.javadocservlet.controllers.apidoc.ApiDocController;
 import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
+import com.apon.javadocservlet.repository.ArtifactVersions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,10 +42,15 @@ public class FrontendController {
     }
 
     @GetMapping("/doc/**")
-    public String iframe(Model model, HttpServletRequest request) {
+    public String iframe(Model model, HttpServletRequest request) throws ArtifactSearchException {
         String requestUrl = ControllerUtil.getRelativeUrl(request, "/doc/");
 
+        Artifact artifact = ApiDocController.createArtifactFromUrl(requestUrl);
+        ArtifactVersions artifactVersions = artifactStorage.findArtifactVersions(artifact);
+
         model.addAttribute("url", "/apidoc/" + requestUrl);
+        model.addAttribute("artifact", artifact);
+        model.addAttribute("artifactVersions", artifactVersions);
         return "iframe";
     }
 }

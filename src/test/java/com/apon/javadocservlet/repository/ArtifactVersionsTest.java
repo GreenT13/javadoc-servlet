@@ -17,8 +17,8 @@ class ArtifactVersionsTest {
     private ArtifactVersions createArtifactVersions() {
         String groupId = "groupId";
         String artifactId = "artifactId";
-        String latestVersion = "latestVersion";
-        Artifact artifact = new Artifact(groupId, artifactId, latestVersion);
+        String version = "version";
+        Artifact artifact = new Artifact(groupId, artifactId, version);
         ArtifactVersions.Version version1 = new ArtifactVersions.Version("version1", true);
         ArtifactVersions.Version version2 = new ArtifactVersions.Version("version2", false);
 
@@ -41,8 +41,8 @@ class ArtifactVersionsTest {
         // Given
         String groupId = "groupId";
         String artifactId = "artifactId";
-        String latestVersion = "latestVersion";
-        Artifact artifact = new Artifact(groupId, artifactId, latestVersion);
+        String version = "version";
+        Artifact artifact = new Artifact(groupId, artifactId, version);
         ArtifactVersions.Version version1 = new ArtifactVersions.Version("version1", true);
         List<ArtifactVersions.Version> versions = new ArrayList<>(Collections.singletonList(version1));
         ArtifactVersions artifactVersions = new ArtifactVersions(artifact, versions);

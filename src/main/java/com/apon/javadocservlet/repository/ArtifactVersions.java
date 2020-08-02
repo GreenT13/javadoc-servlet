@@ -67,7 +67,8 @@ public class ArtifactVersions {
             return version;
         }
 
-        public boolean hasJavaDocJar() {
+        // This method MUST have the name "isHasJavaDocJar", otherwise the Thymeleaf template cannot find this getter.
+        public boolean isHasJavaDocJar() {
             return hasJavaDocJar;
         }
     }
