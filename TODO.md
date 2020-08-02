@@ -15,7 +15,7 @@ Other possible tests:
   - [x] Make iframe fill page
   - [x] Make header above iframe with version selection
 - Home page:
-  - [ ] Add links in result table to the javadoc if it is available
+  - [x] Add links in result table to the javadoc
   - [ ] Make it possible to select specific versions? Something like a button "Show versions"
         or something?
   - [ ] Some CSS and make it a nice looking page
