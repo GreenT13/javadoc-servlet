@@ -54,4 +54,15 @@ public class FrontendController {
         model.addAttribute("artifactVersions", artifactVersions);
         return "iframe";
     }
+
+    @GetMapping(DOC_ULR + "*")
+    public String searchByGroupId(Model model, HttpServletRequest request) throws ArtifactSearchException {
+        String groupId = urlUtil.getRelativeUrl(request, DOC_ULR);
+
+        List<Artifact> artifacts = artifactStorage.findArtifacts(groupId, null);
+
+        model.addAttribute("groupId", groupId);
+        model.addAttribute("foundArtifacts", artifacts);
+        return "search_by_group_id";
+    }
 }

@@ -34,6 +34,10 @@ public class UrlUtil {
         return servletContext.getContextPath() + ApiDocController.API_DOC_URL + artifact.getGroupId() + "/" + artifact.getArtifactId() + "/" + artifact.getVersion() + "/index.html";
     }
 
+    public String createUrlTo(String path) {
+        return servletContext.getContextPath() + FrontendController.DOC_ULR + path;
+    }
+
     private String getContextPathWithoutTrailingSlash() {
         String contextPath = servletContext.getContextPath();
 
@@ -59,7 +63,7 @@ public class UrlUtil {
      * @param prefix The prefix. Make sure you add the starting and ending slash.
      * @return The relative called URL
      */
-    private String getRelativeUrl(HttpServletRequest httpServletRequest, String prefix) {
+    public String getRelativeUrl(HttpServletRequest httpServletRequest, String prefix) {
         String requestedUri = (String) httpServletRequest.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
         return requestedUri.substring(prefix.length());
     }
