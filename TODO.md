@@ -1,7 +1,7 @@
 ## Tests
 Packages to write tests for:
 - [x] controllers
-- [ ] repository
+- [x] repository
 - [ ] client (probably not doable to write tests for this one?)
 - [x] zip
 
