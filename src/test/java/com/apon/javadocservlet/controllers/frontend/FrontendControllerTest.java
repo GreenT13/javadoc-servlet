@@ -1,5 +1,7 @@
 package com.apon.javadocservlet.controllers.frontend;
 
+import com.apon.javadocservlet.controllers.ControllerTestUtil;
+import com.apon.javadocservlet.controllers.apidoc.ApiDocController;
 import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
@@ -23,7 +25,7 @@ class FrontendControllerTest {
     @Test
     public void formObjectIsSetForHomePage() {
         // Given
-        FrontendController frontendController = new FrontendController(null);
+        FrontendController frontendController = new FrontendController(null, ControllerTestUtil.createUrlUtil());
         Model model = mock(Model.class);
 
         // When
@@ -43,7 +45,7 @@ class FrontendControllerTest {
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
         List<Artifact> artifactList = Collections.singletonList(new Artifact("groupId", "artifactId", "version"));
         doReturn(artifactList).when(artifactStorage).findArtifacts(anyString(), anyString());
-        FrontendController frontendController = new FrontendController(artifactStorage);
+        FrontendController frontendController = new FrontendController(artifactStorage, ControllerTestUtil.createUrlUtil());
         FrontendForm frontendForm = new FrontendForm();
         String groupId = "groupId";
         String artifactId = "artifactId";
@@ -68,11 +70,12 @@ class FrontendControllerTest {
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
         List<Artifact> artifactList = Collections.singletonList(new Artifact("groupId", "artifactId", "version"));
         doReturn(artifactList).when(artifactStorage).findArtifacts(anyString(), anyString());
-        FrontendController frontendController = new FrontendController(artifactStorage);
+        FrontendController frontendController = new FrontendController(artifactStorage, ControllerTestUtil.createUrlUtil());
         Model model = mock(Model.class);
         HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
-        String afterDocUrl = "value/does/not/matter";
-        doReturn("/doc/" + afterDocUrl).when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        // We must end with index.html, because that is the default page to open.
+        String afterDocUrl = "groupId/artifactId/version/index.html";
+        doReturn(FrontendController.DOC_ULR + afterDocUrl).when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
         // When
         String response = frontendController.iframe(model, httpServletRequest);
@@ -81,8 +84,8 @@ class FrontendControllerTest {
         assertThat("Iframe page must be shown", response, equalTo("iframe"));
 
         ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
-        verify(model).addAttribute(eq("url"), argumentCaptor.capture());
-        assertThat(argumentCaptor.getValue(), equalTo("/apidoc/" + afterDocUrl));
+        verify(model).addAttribute(eq("apiDocUrl"), argumentCaptor.capture());
+        assertThat(argumentCaptor.getValue(), equalTo(ApiDocController.API_DOC_URL + afterDocUrl));
     }
 
 }

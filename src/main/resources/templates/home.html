@@ -40,7 +40,9 @@
         <tr th:each="artifact : ${foundArtifacts}">
             <td th:text="${artifact.groupId}">Group Id</td>
             <td th:text="${artifact.artifactId}">Artifact Id</td>
-            <td th:text="${artifact.version}">Latest version</td>
+            <td><a th:href="${@urlUtil.createUrlToArtifact(artifact)}"
+                   th:text="${artifact.version}">
+                Latest version</a></td>
         </tr>
         </tbody>
     </table>

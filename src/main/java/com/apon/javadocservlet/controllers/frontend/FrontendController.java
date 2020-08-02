@@ -1,7 +1,6 @@
 package com.apon.javadocservlet.controllers.frontend;
 
-import com.apon.javadocservlet.controllers.ControllerUtil;
-import com.apon.javadocservlet.controllers.apidoc.ApiDocController;
+import com.apon.javadocservlet.controllers.UrlUtil;
 import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
@@ -18,9 +17,11 @@ import java.util.List;
 @Controller
 public class FrontendController {
     private final ArtifactStorage artifactStorage;
+    private final UrlUtil urlUtil;
 
-    public FrontendController(ArtifactStorage artifactStorage) {
+    public FrontendController(ArtifactStorage artifactStorage, UrlUtil urlUtil) {
         this.artifactStorage = artifactStorage;
+        this.urlUtil = urlUtil;
     }
 
     @GetMapping("/")
@@ -41,14 +42,14 @@ public class FrontendController {
         return "home";
     }
 
-    @GetMapping("/doc/**")
-    public String iframe(Model model, HttpServletRequest request) throws ArtifactSearchException {
-        String requestUrl = ControllerUtil.getRelativeUrl(request, "/doc/");
+    public final static String DOC_ULR = "/doc/";
 
-        Artifact artifact = ApiDocController.createArtifactFromUrl(requestUrl);
+    @GetMapping(DOC_ULR + "**")
+    public String iframe(Model model, HttpServletRequest request) throws ArtifactSearchException {
+        Artifact artifact = urlUtil.createArtifactFromUrl(request, DOC_ULR);
         ArtifactVersions artifactVersions = artifactStorage.findArtifactVersions(artifact);
 
-        model.addAttribute("url", "/apidoc/" + requestUrl);
+        model.addAttribute("apiDocUrl", urlUtil.createApiDocUrlToArtifact(artifact));
         model.addAttribute("artifact", artifact);
         model.addAttribute("artifactVersions", artifactVersions);
         return "iframe";

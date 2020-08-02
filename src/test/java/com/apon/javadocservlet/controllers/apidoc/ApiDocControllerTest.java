@@ -1,5 +1,6 @@
 package com.apon.javadocservlet.controllers.apidoc;
 
+import com.apon.javadocservlet.controllers.ControllerTestUtil;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.zip.TestZipConstants;
 import com.apon.javadocservlet.zip.ZipCache;
@@ -26,12 +27,12 @@ class ApiDocControllerTest {
         byte[] file = new byte[]{1,2,3};
         doReturn(Optional.of(file)).when(zipCache).getContentOfFileFromZip(anyString(), anyString(), anyString(), anyString());
 
-        ApiDocController apiDocController = new ApiDocController(zipCache);
+        ApiDocController apiDocController = new ApiDocController(zipCache, ControllerTestUtil.createUrlUtil());
         String groupId = "group.id";
         String artifactId = "artifact.id";
         String version = "1.2.3";
         String filePath = "subdir/index.html";
-        String url = "/apidoc/" + groupId + "/" + artifactId + "/" + version + "/" + filePath;
+        String url = ApiDocController.API_DOC_URL + groupId + "/" + artifactId + "/" + version + "/" + filePath;
         HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
         doReturn(url).when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
@@ -60,9 +61,9 @@ class ApiDocControllerTest {
         ZipCache zipCache = mock(ZipCache.class);
         doReturn(Optional.empty()).when(zipCache).getContentOfFileFromZip(anyString(), anyString(), anyString(), anyString());
 
-        ApiDocController apiDocController = new ApiDocController(zipCache);
+        ApiDocController apiDocController = new ApiDocController(zipCache, ControllerTestUtil.createUrlUtil());
         HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
-        doReturn("/apidoc/url/does/not/matter").when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        doReturn(ApiDocController.API_DOC_URL + "url/does/not/matter").when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
         // When
         assertThrows(ArtifactSearchException.class, () -> apiDocController.getFileInZip(httpServletRequest));

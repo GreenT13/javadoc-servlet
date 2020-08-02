@@ -8,6 +8,7 @@ Packages to write tests for:
 Other possible tests:
 - [ ] Integration tests with mocked Maven Central
 - [ ] Thymeleaf tests?? https://dzone.com/articles/spring-test-thymeleaf-views
+- [ ] UrlUtil where ServletContext return some root path.
 
 ## UI enhancements
 - IFrame page:
@@ -23,7 +24,7 @@ Other possible tests:
 - [ ] Display kind of error message when version does not support JavaDoc
 - [ ] Error handling for incorrect URLs
 - [ ] Support for "latest" URLs
-- [ ] Make it possible to run application on non-root URL
+- [x] Make it possible to run application on non-root URL
 
 ## Integrate repositories
 Create a single ENUM with all repository storages. I think we should maybe integrate them in some way, but what

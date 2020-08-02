@@ -39,7 +39,7 @@
 <div id="nav" class="navbar navbar-expand navbar-dark bg-dark">
     <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" th:href="${@urlUtil.getUrlToHome()}">Home</a>
         </li>
         <li class="nav-item active">
             <span class="nav-link" th:text="${artifactVersions.artifact.groupId}">group.id</span>
@@ -54,7 +54,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item"
-                   th:href="'/doc/' + ${artifactVersions.artifact.groupId} + '/' + ${artifactVersions.artifact.artifactId} + '/' + ${version.version} + '/index.html'"
+                   th:href="${@urlUtil.createUrlToArtifact(artifact, version.version)}"
                    th:each="version : ${artifactVersions.versions}"
                    th:text="${version.version}"
                    th:classappend="${version.hasJavaDocJar} ? text-success : text-danger">Action</a>
@@ -66,10 +66,9 @@
 <div id="iframe-container">
     <!-- Name of the iframe must be set to classFrame, otherwise apidoc functionality won't work (search bar for example). -->
     <iframe id="iframe"
-            th:src="${url}" onLoad="changeBrowserUrl(this.contentWindow.location);"
+            th:src="${apiDocUrl}" onLoad="changeBrowserUrl(this.contentWindow.location);"
             name="classFrame"></iframe>
 </div>
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -83,11 +82,14 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
 
-<script>
+<script th:inline="javascript">
     function changeBrowserUrl(location) {
         let relativePath = location.pathname;
         // The URL will always start with /apidoc/. Replace this with with /doc/, to match the frontend url.
-        window.history.pushState(null, "Apidoc", "/doc/" + relativePath.substring("/apidoc/".length));
+        let docUrl = /*[[${@urlUtil.getDocUrl()}]]*/ "/doc/";
+        let apiDocUrl = /*[[${@urlUtil.getApiDocUrl()}]]*/ "/apidoc/";
+        console.log(docUrl, apiDocUrl);
+        window.history.pushState(null, "Apidoc", docUrl + relativePath.substring(apiDocUrl.length));
     }
 </script>
 </body>

@@ -1,6 +1,7 @@
 package com.apon.javadocservlet.controllers;
 
 import com.apon.javadocservlet.controllers.apidoc.ApiDocController;
+import com.apon.javadocservlet.controllers.frontend.FrontendController;
 import com.apon.javadocservlet.repository.Artifact;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -22,7 +23,7 @@ public class UrlUtil {
     }
 
     public String createUrlToArtifact(Artifact artifact, String version) {
-        return servletContext.getContextPath() + "/doc/" + artifact.getGroupId() + "/" + artifact.getArtifactId() + "/" + version + "/index.html";
+        return servletContext.getContextPath() + FrontendController.DOC_ULR + artifact.getGroupId() + "/" + artifact.getArtifactId() + "/" + version + "/index.html";
     }
 
     public String createUrlToArtifact(Artifact artifact) {
@@ -33,8 +34,23 @@ public class UrlUtil {
         return servletContext.getContextPath() + ApiDocController.API_DOC_URL + artifact.getGroupId() + "/" + artifact.getArtifactId() + "/" + artifact.getVersion() + "/index.html";
     }
 
+    private String getContextPathWithoutTrailingSlash() {
+        String contextPath = servletContext.getContextPath();
+
+        // Remove the final slash if it exists, since this is already contained in the API_DOC_URL.
+        if (contextPath.endsWith("/")) {
+            contextPath = contextPath.substring(0, contextPath.length() - 1);
+        }
+
+        return contextPath;
+    }
+
     public String getApiDocUrl() {
-        return ApiDocController.API_DOC_URL;
+        return getContextPathWithoutTrailingSlash() + ApiDocController.API_DOC_URL;
+    }
+
+    public String getDocUrl() {
+        return getContextPathWithoutTrailingSlash() + FrontendController.DOC_ULR;
     }
 
     /**
