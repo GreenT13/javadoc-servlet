@@ -3,7 +3,7 @@ package com.apon.javadocservlet.repository.impl.mavencentral;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.impl.mavencentral.search.SearchResponse;
 import com.apon.javadocservlet.repository.impl.mavencentral.search.VersionsSearchResponse;
-import com.apon.javadocservlet.client.WebserviceClient;
+import com.apon.javadocservlet.repository.impl.WebserviceClient;
 
 import java.util.Map;
 

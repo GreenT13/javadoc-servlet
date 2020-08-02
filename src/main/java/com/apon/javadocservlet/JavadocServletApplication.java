@@ -3,7 +3,7 @@ package com.apon.javadocservlet;
 import com.apon.javadocservlet.controllers.UrlUtil;
 import com.apon.javadocservlet.repository.ArtifactStorage;
 import com.apon.javadocservlet.repository.impl.mavencentral.MavenCentralRepository;
-import com.apon.javadocservlet.client.WebserviceClient;
+import com.apon.javadocservlet.repository.impl.WebserviceClient;
 import com.apon.javadocservlet.zip.ZipCache;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
