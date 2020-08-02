@@ -20,7 +20,7 @@
             width: 100%;
         }
 
-        #iframe {
+        .iframe {
             width: 100%;
             height: 100%;
             border: none;
@@ -75,9 +75,16 @@
 
 <div id="iframe-container">
     <!-- Name of the iframe must be set to classFrame, otherwise apidoc functionality won't work (search bar for example). -->
-    <iframe id="iframe"
+    <iframe class="iframe"
             th:src="${apiDocUrl}" onLoad="changeBrowserUrl(this.contentWindow.location);"
-            name="classFrame"></iframe>
+            name="classFrame"
+            th:if="${!hasNoJavaDocJar}"></iframe>
+
+    <!-- If no javadoc could be found, we show the page indicating the javadoc is missing. -->
+    <iframe class="iframe"
+            th:src="${@urlUtil.getNoJavaDocUrl()}"
+            name="classFrame"
+            th:if="${hasNoJavaDocJar}"></iframe>
 </div>
 
 <!-- Optional JavaScript -->

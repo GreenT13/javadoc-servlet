@@ -5,10 +5,9 @@ Other possible tests:
 - [ ] UrlUtil where ServletContext return some root path.
 
 ## General thoughts
-- [ ] Display kind of error message when version does not support JavaDoc
+- [x] Display kind of error message when version does not support JavaDoc
 - [ ] Error handling for incorrect URLs
 - [ ] Support for "latest" URLs
-- [x] Make it possible to run application on non-root URL
 
 ## Integrate repositories
 Create a single ENUM with all repository storages. I think we should maybe integrate them in some way, but what

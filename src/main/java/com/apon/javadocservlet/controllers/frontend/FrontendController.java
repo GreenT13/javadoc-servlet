@@ -48,10 +48,15 @@ public class FrontendController {
     public String iframe(Model model, HttpServletRequest request) throws ArtifactSearchException {
         Artifact artifact = urlUtil.createArtifactFromUrl(request, DOC_ULR);
         ArtifactVersions artifactVersions = artifactStorage.findArtifactVersions(artifact);
-
         List<Artifact> artifacts = artifactStorage.findArtifacts(artifact.getGroupId(), null);
-        // Remove the current artifact from the list.
-        artifacts.remove(artifact);
+
+        // Add attribute indicating if we have a javadoc jar or not.
+        // This information can be found in the just retrieved artifactVersions.
+        ArtifactVersions.Version currentVersion = artifactVersions.getVersions().stream()
+                .filter(version -> version.getVersion().equals(artifact.getVersion()))
+                .findAny()
+                .orElseThrow(ArtifactSearchException::new);
+        model.addAttribute("hasNoJavaDocJar", !currentVersion.isHasJavaDocJar());
 
         model.addAttribute("apiDocUrl", urlUtil.createApiDocUrlToArtifact(artifact));
         model.addAttribute("selectedArtifact", artifact);
@@ -69,5 +74,12 @@ public class FrontendController {
         model.addAttribute("groupId", groupId);
         model.addAttribute("foundArtifacts", artifacts);
         return "search_by_group_id";
+    }
+
+    public final static String MISSING_JAVADOC_URL = "/missing_javadoc";
+
+    @GetMapping(MISSING_JAVADOC_URL)
+    public String missingJavaDoc() {
+        return "missing_javadoc";
     }
 }

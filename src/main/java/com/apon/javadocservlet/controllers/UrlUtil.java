@@ -57,6 +57,10 @@ public class UrlUtil {
         return getContextPathWithoutTrailingSlash() + FrontendController.DOC_ULR;
     }
 
+    public String getNoJavaDocUrl() {
+        return getContextPathWithoutTrailingSlash() + FrontendController.MISSING_JAVADOC_URL;
+    }
+
     /**
      * Get the called URL where the prefix is removed.
      * @param httpServletRequest The request
