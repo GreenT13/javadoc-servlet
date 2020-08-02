@@ -44,20 +44,30 @@
         <li class="nav-item active">
             <a class="nav-link" th:text="${artifactVersions.artifact.groupId}" th:href="${@urlUtil.createUrlTo(artifactVersions.artifact.groupId)}">group.id</a>
         </li>
-        <li class="nav-item active">
-            <span class="nav-link" th:text="${artifactVersions.artifact.artifactId}">artifactId</span>
-        </li>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false" th:text="${artifact.version}">
+            <a class="nav-link dropdown-toggle" href="#" id="artifactDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false" th:text="${selectedArtifact.artifactId}">
+                artifact.id
+            </a>
+            <div class="dropdown-menu" aria-labelledby="artifactDropdown">
+                <a class="dropdown-item"
+                   th:each="artifact : ${artifacts}"
+                   th:href="${@urlUtil.createUrlToArtifact(artifact)}"
+                   th:text="${artifact.artifactId}">artifact.id</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="artifactVersionDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false" th:text="${selectedArtifact.version}">
                 X.Y.Z
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <div class="dropdown-menu" aria-labelledby="artifactVersionDropdown">
                 <a class="dropdown-item"
-                   th:href="${@urlUtil.createUrlToArtifact(artifact, version.version)}"
                    th:each="version : ${artifactVersions.versions}"
+                   th:href="${@urlUtil.createUrlToArtifact(selectedArtifact, version.version)}"
                    th:text="${version.version}"
-                   th:classappend="${version.hasJavaDocJar} ? text-success : text-danger">Action</a>
+                   th:classappend="${version.hasJavaDocJar} ? text-success : text-danger">X.Y.Z</a>
             </div>
         </li>
     </ul>

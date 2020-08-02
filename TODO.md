@@ -4,11 +4,6 @@ Other possible tests:
 - [ ] Thymeleaf tests?? https://dzone.com/articles/spring-test-thymeleaf-views
 - [ ] UrlUtil where ServletContext return some root path.
 
-## UI enhancements
-- Home page:
-  - [x] Add links in result table to the javadoc
-  - [x] Some CSS and make it a nice looking page
-
 ## General thoughts
 - [ ] Display kind of error message when version does not support JavaDoc
 - [ ] Error handling for incorrect URLs

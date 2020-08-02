@@ -49,8 +49,13 @@ public class FrontendController {
         Artifact artifact = urlUtil.createArtifactFromUrl(request, DOC_ULR);
         ArtifactVersions artifactVersions = artifactStorage.findArtifactVersions(artifact);
 
+        List<Artifact> artifacts = artifactStorage.findArtifacts(artifact.getGroupId(), null);
+        // Remove the current artifact from the list.
+        artifacts.remove(artifact);
+
         model.addAttribute("apiDocUrl", urlUtil.createApiDocUrlToArtifact(artifact));
-        model.addAttribute("artifact", artifact);
+        model.addAttribute("selectedArtifact", artifact);
+        model.addAttribute("artifacts", artifacts);
         model.addAttribute("artifactVersions", artifactVersions);
         return "iframe";
     }
