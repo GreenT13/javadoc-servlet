@@ -23,6 +23,7 @@ repositories {
 dependencies {
     implementation("com.google.guava:guava:29.0-jre")
     providedCompile("com.github.spotbugs:spotbugs-annotations:4.1.1")
+    implementation("commons-codec:commons-codec:1.14")
 
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")

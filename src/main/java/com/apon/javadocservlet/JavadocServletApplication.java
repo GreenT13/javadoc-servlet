@@ -13,6 +13,10 @@ import javax.servlet.ServletContext;
 
 @SpringBootApplication
 public class JavadocServletApplication {
+    /** Maximum size of cache for storing processed zip in bytes. Current value: 100MB. */
+    public static final long MAX_STORAGE_SIZE_ZIP_FILES_IN_BYTES = 100_000_000;
+    /** Maximum number of hashes (32 bytes each) of zips we store in cache. */
+    public final static long MAX_NUMBER_OF_ZIP_HASHES_IN_CACHE = 100_000;
 
     public static void main(String[] args) {
         SpringApplication.run(JavadocServletApplication.class, args);
