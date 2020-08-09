@@ -19,6 +19,6 @@ be a system configuration which repository you select?
 ## Random technical stuff
 - [x] Travis-ci + badge
 - [x] JaCoCo plugin + Coveralls + badge
-- [ ] Checkstyle (fail build if plugin fails?)
+- [x] Checkstyle (fail build if plugin fails)
 - [ ] SpotBugs
 - [ ] Convert Gradle to Kotlin variant

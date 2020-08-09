@@ -11,7 +11,6 @@ import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public class UrlUtil {
-
     private final ServletContext servletContext;
 
     public UrlUtil(ServletContext servletContext) {
@@ -64,7 +63,7 @@ public class UrlUtil {
     /**
      * Get the called URL where the prefix is removed.
      * @param httpServletRequest The request
-     * @param prefix The prefix. Make sure you add the starting and ending slash.
+     * @param prefix             The prefix. Make sure you add the starting and ending slash.
      * @return The relative called URL
      */
     public String getRelativeUrl(HttpServletRequest httpServletRequest, String prefix) {
@@ -75,7 +74,7 @@ public class UrlUtil {
     /**
      * Create {@link Artifact} based on the called URL. The URL must be of the format "context/prefix/groupId/artifactId/version/..." to work.
      * @param httpServletRequest The url.
-     * @param prefix The prefix. Make sure you add the starting and ending slash.
+     * @param prefix             The prefix. Make sure you add the starting and ending slash.
      * @return {@link Artifact} object.
      */
     public Artifact createArtifactFromUrl(HttpServletRequest httpServletRequest, String prefix) {
@@ -92,7 +91,7 @@ public class UrlUtil {
      * Get the file path based on the called URL. The URL must be of the format "context/prefix/groupId/artifactId/version/**", where
      * the ** part is returned.
      * @param httpServletRequest The request.
-     * @param prefix The prefix. Make sure you add the starting and ending slash.
+     * @param prefix             The prefix. Make sure you add the starting and ending slash.
      * @return The file path.
      */
     public String getFilePathFromUrl(HttpServletRequest httpServletRequest, String prefix) {

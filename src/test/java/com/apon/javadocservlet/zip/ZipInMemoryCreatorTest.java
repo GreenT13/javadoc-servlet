@@ -15,14 +15,12 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
  * - subdir/file2.txt (with text content "Content of file2.txt")
  */
 class ZipInMemoryCreatorTest {
-    private static final byte[] file = TestZipConstants.FILE;
-
     private final ZipInMemoryCreator zipInMemoryCreator = new ZipInMemoryCreator();
 
     @Test
     public void directoriesAreNotPartOfTheMap() throws IOException {
         // When
-        Map<String, byte[]> zipContent = zipInMemoryCreator.getContentAsMap(file);
+        Map<String, byte[]> zipContent = zipInMemoryCreator.getContentAsMap(TestZipConstants.FILE);
 
         // Then
         assertThat(zipContent.keySet(), containsInAnyOrder(TestZipConstants.FILE_PATH_1, TestZipConstants.FILE_PATH_2));
@@ -31,7 +29,7 @@ class ZipInMemoryCreatorTest {
     @Test
     public void contentOfFilesIsRead() throws IOException {
         // When
-        Map<String, byte[]> zipContent = zipInMemoryCreator.getContentAsMap(file);
+        Map<String, byte[]> zipContent = zipInMemoryCreator.getContentAsMap(TestZipConstants.FILE);
 
         // Then
         assertThat(zipContent.get(TestZipConstants.FILE_PATH_1), matchesString(TestZipConstants.FILE_CONTENT_1));

@@ -9,12 +9,12 @@ import java.nio.charset.StandardCharsets;
 public class ByteMatcher extends TypeSafeMatcher<byte[]> {
     private final String expectedText;
 
-    public static Matcher<byte[]> matchesString(String expectedText) {
-        return new ByteMatcher(expectedText);
-    }
-
     public ByteMatcher(String expectedText) {
         this.expectedText = expectedText;
+    }
+
+    public static Matcher<byte[]> matchesString(String expectedText) {
+        return new ByteMatcher(expectedText);
     }
 
     @Override

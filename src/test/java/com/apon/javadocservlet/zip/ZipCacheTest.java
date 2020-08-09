@@ -4,7 +4,6 @@ import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -16,8 +15,6 @@ import static org.mockito.Mockito.*;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 class ZipCacheTest {
-    private static final byte[] file = TestZipConstants.FILE;
-
     @Test
     public void happyFlow() throws ArtifactSearchException, ExecutionException {
         // Given
@@ -26,7 +23,7 @@ class ZipCacheTest {
         String version = "version";
 
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
-        doReturn(file).when(artifactStorage).getJavaDocJar(groupId, artifactId, version);
+        doReturn(TestZipConstants.FILE).when(artifactStorage).getJavaDocJar(groupId, artifactId, version);
         ZipCache zipCache = new ZipCache(artifactStorage);
 
         // When
@@ -58,7 +55,7 @@ class ZipCacheTest {
         String version = "version";
 
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
-        doReturn(file).when(artifactStorage).getJavaDocJar(groupId, artifactId, version);
+        doReturn(TestZipConstants.FILE).when(artifactStorage).getJavaDocJar(groupId, artifactId, version);
         ZipCache zipCache = new ZipCache(artifactStorage);
 
         // When

@@ -15,6 +15,8 @@ import java.util.concurrent.ExecutionException;
 
 @Controller
 public class ApiDocController {
+    public final static String API_DOC_URL = "/apidoc/";
+
     private final ZipCache zipCache;
     private final UrlUtil urlUtil;
 
@@ -22,8 +24,6 @@ public class ApiDocController {
         this.zipCache = zipCache;
         this.urlUtil = urlUtil;
     }
-
-    public final static String API_DOC_URL = "/apidoc/";
 
     @GetMapping(API_DOC_URL + "**")
     @ResponseBody

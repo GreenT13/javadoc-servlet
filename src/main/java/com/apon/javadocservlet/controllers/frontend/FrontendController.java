@@ -16,6 +16,9 @@ import java.util.List;
 
 @Controller
 public class FrontendController {
+    public final static String DOC_ULR = "/doc/";
+    public final static String MISSING_JAVADOC_URL = "/missing_javadoc";
+
     private final ArtifactStorage artifactStorage;
     private final UrlUtil urlUtil;
 
@@ -41,8 +44,6 @@ public class FrontendController {
 
         return "home";
     }
-
-    public final static String DOC_ULR = "/doc/";
 
     @GetMapping(DOC_ULR + "**")
     public String iframe(Model model, HttpServletRequest request) throws ArtifactSearchException {
@@ -75,8 +76,6 @@ public class FrontendController {
         model.addAttribute("foundArtifacts", artifacts);
         return "search_by_group_id";
     }
-
-    public final static String MISSING_JAVADOC_URL = "/missing_javadoc";
 
     @GetMapping(MISSING_JAVADOC_URL)
     public String missingJavaDoc() {

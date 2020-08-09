@@ -2,14 +2,12 @@ package com.apon.javadocservlet.controllers.apidoc;
 
 import com.apon.javadocservlet.controllers.ControllerTestUtil;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
-import com.apon.javadocservlet.zip.TestZipConstants;
 import com.apon.javadocservlet.zip.ZipCache;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -24,7 +22,7 @@ class ApiDocControllerTest {
     public void urlIsParsedCorrectly() throws ExecutionException, ArtifactSearchException {
         // Given
         ZipCache zipCache = mock(ZipCache.class);
-        byte[] file = new byte[]{1,2,3};
+        byte[] file = new byte[]{1, 2, 3};
         doReturn(Optional.of(file)).when(zipCache).getContentOfFileFromZip(anyString(), anyString(), anyString(), anyString());
 
         ApiDocController apiDocController = new ApiDocController(zipCache, ControllerTestUtil.createUrlUtil());

@@ -5,6 +5,7 @@ plugins {
 	id 'war'
 	id 'jacoco'
 	id 'com.github.kt3k.coveralls' version '2.10.1'
+	id 'checkstyle'
 }
 
 group = 'com.apon'
