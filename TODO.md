@@ -3,6 +3,7 @@ Other possible tests:
 - [ ] Integration tests with mocked Maven Central
 - [ ] Thymeleaf tests?? https://dzone.com/articles/spring-test-thymeleaf-views
 - [ ] UrlUtil where ServletContext return some root path.
+- [ ] Run through all tests and cleanup code
 
 ## General thoughts
 - [x] Display kind of error message when version does not support JavaDoc
@@ -22,3 +23,4 @@ be a system configuration which repository you select?
 - [x] Checkstyle (fail build if plugin fails)
 - [ ] SpotBugs
 - [ ] Convert Gradle to Kotlin variant
+- [ ] Add IntelliJ run configurations
