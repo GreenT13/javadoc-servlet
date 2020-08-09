@@ -20,19 +20,29 @@ I use the following tools for checking code quality:
 * SpotBugs
 
 # TODO items
+- [ ] Remove all TODO's from the code
+
 ## Tests
 - [ ] Integration tests with mocked Maven Central
 - [ ] Thymeleaf tests?? https://dzone.com/articles/spring-test-thymeleaf-views
 - [ ] UrlUtil where ServletContext return some root path.
 - [ ] Run through all tests, cleanup code and make some util functions for easily creating objects
 - [ ] Replace Mockito.mock with actual classes to speed up performance?
+- [ ] Add specific cache control test with checking headers and 304 response.
+- [ ] Add integration test for the complete cache strategy:
+      1. When sending the first request (index.html), the file will be retrieved once from artifact storage.
+      2. All files that are loaded afterwards, are retrieved from the already processed zip in cache.
+      3. All requests have the etag-header with the md5 hash of the zip.
+      4. When sending request with If-None-Match and correct identifier, return 304 response.
+      5. When sending request with If-None-Match and incorrect identifier, retrieve file from cache.
+      6. In all the above, we call the artifact storage exactly once.
 
 ## General code thoughts
 - [ ] Error handling for incorrect URLs
 - [ ] Rethink exception catching strategy in ApiDocController
 - [ ] Support for "latest" URLs
 - [ ] Add @NonNull and @Nullable annotation throughout the code
-- [ ] Add caching for ApiDocController methods (https://www.baeldung.com/spring-mvc-cache-headers)
+- [x] Add caching for ApiDocController methods (https://www.baeldung.com/spring-mvc-cache-headers)
 
 ## Random technical stuff
 - [ ] Add IntelliJ run configurations

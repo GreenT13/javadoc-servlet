@@ -1,10 +1,11 @@
 package com.apon.javadocservlet.controllers.apidoc;
 
 import com.apon.javadocservlet.controllers.ControllerTestUtil;
-import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.zip.ZipCache;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,17 +14,20 @@ import java.util.concurrent.ExecutionException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class ApiDocControllerTest {
 
     @Test
-    public void urlIsParsedCorrectly() throws ExecutionException, ArtifactSearchException {
+    public void urlIsParsedCorrectly() throws ExecutionException {
         // Given
         ZipCache zipCache = mock(ZipCache.class);
         byte[] file = new byte[]{1, 2, 3};
         doReturn(Optional.of(file)).when(zipCache).getContentOfFileFromZip(anyString(), anyString(), anyString(), anyString());
+        doReturn("md5").when(zipCache).getMd5HashFromZip(anyString(), anyString(), anyString());
+
+        WebRequest webRequest = mock(WebRequest.class);
+        doReturn(false).when(webRequest).checkNotModified(anyString());
 
         ApiDocController apiDocController = new ApiDocController(zipCache, ControllerTestUtil.createUrlUtil());
         String groupId = "group.id";
@@ -35,7 +39,7 @@ class ApiDocControllerTest {
         doReturn(url).when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
         // When
-        byte[] response = apiDocController.getFileInZip(httpServletRequest);
+        byte[] response = apiDocController.getFileInZip(httpServletRequest, webRequest).getBody();
 
         // Then
         // Verify the same file content is returned.
@@ -54,16 +58,23 @@ class ApiDocControllerTest {
     }
 
     @Test
-    public void exceptionIsThrownWhenFileCouldNotBeFound() throws ExecutionException {
+    public void notFoundIsReturnedWhenFileCouldNotBeFound() throws ExecutionException {
         // Given
         ZipCache zipCache = mock(ZipCache.class);
         doReturn(Optional.empty()).when(zipCache).getContentOfFileFromZip(anyString(), anyString(), anyString(), anyString());
+        doReturn("md5").when(zipCache).getMd5HashFromZip(anyString(), anyString(), anyString());
+
+        WebRequest webRequest = mock(WebRequest.class);
+        doReturn(false).when(webRequest).checkNotModified(anyString());
 
         ApiDocController apiDocController = new ApiDocController(zipCache, ControllerTestUtil.createUrlUtil());
         HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
         doReturn(ApiDocController.API_DOC_URL + "url/does/not/matter").when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
         // When
-        assertThrows(ArtifactSearchException.class, () -> apiDocController.getFileInZip(httpServletRequest));
+        HttpStatus status = apiDocController.getFileInZip(httpServletRequest, webRequest).getStatusCode();
+
+        // Then
+        assertThat(status, equalTo(HttpStatus.NOT_FOUND));
     }
 }

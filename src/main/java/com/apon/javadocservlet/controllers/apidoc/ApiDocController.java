@@ -1,12 +1,15 @@
 package com.apon.javadocservlet.controllers.apidoc;
 
+import com.apon.javadocservlet.JavadocServletApplication;
 import com.apon.javadocservlet.controllers.UrlUtil;
 import com.apon.javadocservlet.repository.Artifact;
-import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.zip.ZipCache;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -26,15 +29,35 @@ public class ApiDocController {
 
     @GetMapping(API_DOC_URL + "**")
     @ResponseBody
-    public byte[] getFileInZip(HttpServletRequest request) throws ArtifactSearchException, ExecutionException {
+    // TODO: Remove HttpServletRequest and only use WebRequest. Figure out how to determine path from WebRequest object.
+    public ResponseEntity<byte[]> getFileInZip(HttpServletRequest request, WebRequest webRequest) throws ExecutionException {
+        // Note: all responses must always use the cache control headers, even the 304 request.
+        // So make sure to always use the CACHE_CONTROL and etag when building the ResponseEntity.
+
         Artifact artifact = urlUtil.createArtifactFromUrl(request, API_DOC_URL);
         String filePath = urlUtil.getFilePathFromUrl(request, API_DOC_URL);
 
-        Optional<byte[]> optionalFileContent = zipCache.getContentOfFileFromZip(artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion(), filePath);
-        if (optionalFileContent.isEmpty()) {
-            throw new ArtifactSearchException("Could not find file.");
+        // Check the request against the etag (MD5 hash of the zip). If it matches, no content has been changed.
+        String etag = zipCache.getMd5HashFromZip(artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion());
+        if (webRequest.checkNotModified(etag)) {
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED)
+                    .cacheControl(JavadocServletApplication.CACHE_CONTROL)
+                    .eTag(etag)
+                    .build();
         }
 
-        return optionalFileContent.get();
+        Optional<byte[]> optionalFileContent = zipCache.getContentOfFileFromZip(artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion(), filePath);
+        if (optionalFileContent.isEmpty()) {
+            // Return 404 also with cache control headers, so that this request will also not be called again.
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .cacheControl(JavadocServletApplication.CACHE_CONTROL)
+                    .eTag(etag)
+                    .build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .cacheControl(JavadocServletApplication.CACHE_CONTROL)
+                .eTag(etag)
+                .body(optionalFileContent.get());
     }
 }
