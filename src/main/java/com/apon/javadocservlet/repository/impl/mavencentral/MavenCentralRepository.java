@@ -7,12 +7,14 @@ import com.apon.javadocservlet.repository.ArtifactVersions;
 import com.apon.javadocservlet.repository.impl.mavencentral.search.SearchResponse;
 import com.apon.javadocservlet.repository.impl.mavencentral.search.VersionsSearchResponse;
 import com.apon.javadocservlet.repository.impl.WebserviceClient;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressFBWarnings(justification = "The fields of SearchResponse and VersionsSearchResponse are incorrectly detected as not filled.")
 public class MavenCentralRepository implements ArtifactStorage {
     private final static Logger log = LogManager.getLogger(MavenCentralRepository.class);
 

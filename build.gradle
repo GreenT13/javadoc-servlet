@@ -6,6 +6,7 @@ plugins {
 	id 'jacoco'
 	id 'com.github.kt3k.coveralls' version '2.10.1'
 	id 'checkstyle'
+	id "com.github.spotbugs" version "4.5.0"
 }
 
 group = 'com.apon'
@@ -18,6 +19,7 @@ repositories {
 
 dependencies {
 	compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
+	providedCompile group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: '4.1.1'
 
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -44,4 +46,24 @@ jacocoTestReport {
 
 coveralls {
 	jacocoReportPath 'build/reports/jacoco/test/jacocoTestReport.xml'
+}
+
+// Display final report as HTML.
+spotbugsMain {
+	//noinspection GroovyAssignabilityCheck
+	reports {
+		html {
+			enabled = true
+			stylesheet = 'fancy-hist.xsl'
+		}
+	}
+}
+spotbugsTest {
+	//noinspection GroovyAssignabilityCheck
+	reports {
+		html {
+			enabled = true
+			stylesheet = 'fancy-hist.xsl'
+		}
+	}
 }

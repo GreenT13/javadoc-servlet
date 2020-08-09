@@ -4,6 +4,7 @@ import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
 import com.apon.javadocservlet.repository.ArtifactVersions;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,6 +44,7 @@ public class SingleArtifactTest implements ArtifactStorage {
     }
 
     @Override
+    @SuppressFBWarnings(justification = "InputStream is incorrectly checked, see https://github.com/spotbugs/spotbugs/issues/1250.")
     public byte[] getJavaDocJar(String groupId, String artifactId, String version) throws ArtifactSearchException {
         log.debug("Reading jar from resources.");
 
