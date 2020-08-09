@@ -22,6 +22,6 @@ be a system configuration which repository you select?
 - [x] JaCoCo plugin + Coveralls + badge
 - [x] Checkstyle (fail build if plugin fails)
 - [x] SpotBugs
-- [ ] Convert Gradle to Kotlin variant
+- [x] Convert Gradle to Kotlin variant
 - [ ] Add IntelliJ run configurations
 - [ ] Add @NonNull and @Nullable annotation throughout the code
