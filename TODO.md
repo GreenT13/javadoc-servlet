@@ -17,7 +17,7 @@ For testing, it is nice to select multiple, but for actual usage this would prob
 be a system configuration which repository you select?
 
 ## Random technical stuff
-- [ ] Travis-ci + badge
+- [x] Travis-ci + badge
 - [ ] JaCoCo plugin + Coveralls + badge
 - [ ] Checkstyle (fail build if plugin fails?)
 - [ ] SpotBugs
