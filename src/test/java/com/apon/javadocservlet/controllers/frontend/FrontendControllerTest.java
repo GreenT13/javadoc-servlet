@@ -5,6 +5,7 @@ import com.apon.javadocservlet.controllers.apidoc.ApiDocController;
 import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
+import com.apon.javadocservlet.repository.ArtifactVersions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.ui.Model;
@@ -70,6 +71,8 @@ class FrontendControllerTest {
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
         List<Artifact> artifactList = Collections.singletonList(new Artifact("groupId", "artifactId", "version"));
         doReturn(artifactList).when(artifactStorage).findArtifacts(anyString(), anyString());
+        ArtifactVersions artifactVersions = new ArtifactVersions(artifactList.get(0), Collections.singletonList(new ArtifactVersions.Version("version", true)));
+        doReturn(artifactVersions).when(artifactStorage).findArtifactVersions(any());
         FrontendController frontendController = new FrontendController(artifactStorage, ControllerTestUtil.createUrlUtil());
         Model model = mock(Model.class);
         HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
