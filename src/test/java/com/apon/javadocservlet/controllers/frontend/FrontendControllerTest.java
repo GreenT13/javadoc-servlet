@@ -9,14 +9,14 @@ import com.apon.javadocservlet.repository.ArtifactVersions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.context.request.WebRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -75,13 +75,12 @@ class FrontendControllerTest {
         doReturn(artifactVersions).when(artifactStorage).findArtifactVersions(any());
         FrontendController frontendController = new FrontendController(artifactStorage, ControllerTestUtil.createUrlUtil());
         Model model = mock(Model.class);
-        HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
         // We must end with index.html, because that is the default page to open.
         String afterDocUrl = "groupId/artifactId/version/index.html";
-        doReturn(FrontendController.DOC_ULR + afterDocUrl).when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        WebRequest webRequest = ControllerTestUtil.createWebRequest(FrontendController.DOC_ULR + afterDocUrl);
 
         // When
-        String response = frontendController.iframe(model, httpServletRequest);
+        String response = frontendController.iframe(model, webRequest);
 
         // Then
         assertThat("Iframe page must be shown", response, equalTo("iframe"));

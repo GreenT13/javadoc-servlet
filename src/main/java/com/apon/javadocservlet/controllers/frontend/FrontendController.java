@@ -10,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.WebRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -46,8 +46,8 @@ public class FrontendController {
     }
 
     @GetMapping(DOC_ULR + "**")
-    public String iframe(Model model, HttpServletRequest request) throws ArtifactSearchException {
-        Artifact artifact = urlUtil.createArtifactFromUrl(request, DOC_ULR);
+    public String iframe(Model model, WebRequest webRequest) throws ArtifactSearchException {
+        Artifact artifact = urlUtil.createArtifactFromUrl(webRequest, DOC_ULR);
         ArtifactVersions artifactVersions = artifactStorage.findArtifactVersions(artifact);
         List<Artifact> artifacts = artifactStorage.findArtifacts(artifact.getGroupId(), null);
 
@@ -67,8 +67,8 @@ public class FrontendController {
     }
 
     @GetMapping(DOC_ULR + "*")
-    public String searchByGroupId(Model model, HttpServletRequest request) throws ArtifactSearchException {
-        String groupId = urlUtil.getRelativeUrl(request, DOC_ULR);
+    public String searchByGroupId(Model model, WebRequest webRequest) throws ArtifactSearchException {
+        String groupId = urlUtil.getRelativeUrl(webRequest, DOC_ULR);
 
         List<Artifact> artifacts = artifactStorage.findArtifacts(groupId, null);
 

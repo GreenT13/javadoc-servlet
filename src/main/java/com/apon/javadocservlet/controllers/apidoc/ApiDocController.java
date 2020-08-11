@@ -29,13 +29,12 @@ public class ApiDocController {
 
     @GetMapping(API_DOC_URL + "**")
     @ResponseBody
-    // TODO: Remove HttpServletRequest and only use WebRequest. Figure out how to determine path from WebRequest object.
-    public ResponseEntity<byte[]> getFileInZip(HttpServletRequest request, WebRequest webRequest) throws ExecutionException {
+    public ResponseEntity<byte[]> getFileInZip(WebRequest webRequest) throws ExecutionException {
         // Note: all responses must always use the cache control headers, even the 304 request.
         // So make sure to always use the CACHE_CONTROL and etag when building the ResponseEntity.
 
-        Artifact artifact = urlUtil.createArtifactFromUrl(request, API_DOC_URL);
-        String filePath = urlUtil.getFilePathFromUrl(request, API_DOC_URL);
+        Artifact artifact = urlUtil.createArtifactFromUrl(webRequest, API_DOC_URL);
+        String filePath = urlUtil.getFilePathFromUrl(webRequest, API_DOC_URL);
 
         // Check the request against the etag (MD5 hash of the zip). If it matches, no content has been changed.
         String etag = zipCache.getChecksum(artifact);

@@ -28,7 +28,7 @@ I use the following tools for checking code quality:
 - [ ] UrlUtil where ServletContext return some root path.
 - [ ] Run through all tests, cleanup code and make some util functions for easily creating objects
 - [ ] Replace Mockito.mock with actual classes to speed up performance?
-- [ ] Add specific cache control test with checking headers and 304 response.
+- [x] Add specific cache control test with checking headers and 304 response.
 - [ ] Add integration test for the complete cache strategy:
       1. When sending the first request (index.html), the file will be retrieved once from artifact storage.
       2. All files that are loaded afterwards, are retrieved from the already processed zip in cache.

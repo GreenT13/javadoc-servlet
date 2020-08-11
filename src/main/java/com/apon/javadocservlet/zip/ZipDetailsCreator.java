@@ -16,6 +16,12 @@ import java.util.zip.ZipInputStream;
 public class ZipDetailsCreator {
 
     /**
+     * This is a utility class with only static methods. Create private constructor to avoid creating this object.
+     */
+    private ZipDetailsCreator() {
+    }
+
+    /**
      * Returns a map with the full content of the zip with the relative file path as key.
      * @param zip The file content.
      */

@@ -6,45 +6,41 @@ import com.apon.javadocservlet.zip.ZipCache;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.HandlerMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
+import static com.apon.javadocservlet.controllers.apidoc.CacheControlMatcher.hasCacheControlWithEtag;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 class ApiDocControllerTest {
 
     @Test
     public void urlIsParsedCorrectly() throws ExecutionException {
         // Given
-        ZipCache zipCache = mock(ZipCache.class);
         byte[] file = new byte[]{1, 2, 3};
-        doReturn(Optional.of(file)).when(zipCache).getContentOfFileFromZip(any(), anyString());
-        doReturn("md5").when(zipCache).getChecksum(any());
-
-        WebRequest webRequest = mock(WebRequest.class);
-        doReturn(false).when(webRequest).checkNotModified(anyString());
-
+        String checksum = "d0c488922fd11c46a96e4ca81063bfa3";
+        ZipCache zipCache = ControllerTestUtil.createZipCache(file, checksum);
         ApiDocController apiDocController = new ApiDocController(zipCache, ControllerTestUtil.createUrlUtil());
         String groupId = "group.id";
         String artifactId = "artifact.id";
         String version = "1.2.3";
         String filePath = "subdir/index.html";
         String url = ApiDocController.API_DOC_URL + groupId + "/" + artifactId + "/" + version + "/" + filePath;
-        HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
-        doReturn(url).when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        WebRequest webRequest = ControllerTestUtil.createWebRequest(url);
 
         // When
-        byte[] response = apiDocController.getFileInZip(httpServletRequest, webRequest).getBody();
+        ResponseEntity<byte[]> response = apiDocController.getFileInZip(webRequest);
 
         // Then
-        // Verify the same file content is returned.
-        assertThat(response, equalTo(file));
+        // Verify the response entity.
+        assertThat(response.getBody(), equalTo(file));
+        assertThat(response, hasCacheControlWithEtag(checksum));
 
         // Verify that all the arguments are correctly parsed and passed to the zipCache object.
         ArgumentCaptor<Artifact> artifactArgument = ArgumentCaptor.forClass(Artifact.class);
@@ -57,23 +53,35 @@ class ApiDocControllerTest {
     }
 
     @Test
-    public void notFoundIsReturnedWhenFileCouldNotBeFound() throws ExecutionException {
+    public void return404WithCacheControlWhenFileCouldNotBeFound() throws ExecutionException {
         // Given
-        ZipCache zipCache = mock(ZipCache.class);
-        doReturn(Optional.empty()).when(zipCache).getContentOfFileFromZip(any(), anyString());
-        doReturn("md5").when(zipCache).getChecksum(any());
-
-        WebRequest webRequest = mock(WebRequest.class);
-        doReturn(false).when(webRequest).checkNotModified(anyString());
-
+        String checksum = "d0c488922fd11c46a96e4ca81063bfa3";
+        ZipCache zipCache = ControllerTestUtil.createZipCache(null, checksum);
         ApiDocController apiDocController = new ApiDocController(zipCache, ControllerTestUtil.createUrlUtil());
-        HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
-        doReturn(ApiDocController.API_DOC_URL + "url/does/not/matter").when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        WebRequest webRequest = ControllerTestUtil.createWebRequest(ApiDocController.API_DOC_URL + "url/does/not/matter");
 
         // When
-        HttpStatus status = apiDocController.getFileInZip(httpServletRequest, webRequest).getStatusCode();
+        ResponseEntity<byte[]> response = apiDocController.getFileInZip(webRequest);
 
         // Then
-        assertThat(status, equalTo(HttpStatus.NOT_FOUND));
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.NOT_FOUND));
+        assertThat(response, hasCacheControlWithEtag(checksum));
+    }
+
+    @Test
+    public void return304WithCacheControlWhenEtagMatches() throws ExecutionException {
+        // Given
+        String checksum = "d0c488922fd11c46a96e4ca81063bfa3";
+        ZipCache zipCache = ControllerTestUtil.createZipCache(null, checksum);
+        ApiDocController apiDocController = new ApiDocController(zipCache, ControllerTestUtil.createUrlUtil());
+        WebRequest webRequest = ControllerTestUtil.createWebRequest(ApiDocController.API_DOC_URL + "url/does/not/matter");
+        doReturn(true).when(webRequest).checkNotModified(anyString());
+
+        // When
+        ResponseEntity<byte[]> response = apiDocController.getFileInZip(webRequest);
+
+        // Then
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.NOT_MODIFIED));
+        assertThat(response, hasCacheControlWithEtag(checksum));
     }
 }
