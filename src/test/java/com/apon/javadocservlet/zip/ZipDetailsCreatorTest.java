@@ -16,6 +16,12 @@ import static org.hamcrest.Matchers.equalTo;
  * - subdir/file2.txt (with text content "Content of file2.txt")
  */
 class ZipDetailsCreatorTest {
+    @SuppressWarnings({"InstantiationOfUtilityClass", "unused"})
+    @Test
+    public void callConstructorForFullCodeCoverage() {
+        ZipDetailsCreator zipDetailsCreator = new ZipDetailsCreator();
+    }
+
     @Test
     public void directoriesAreNotPartOfTheMap() throws IOException {
         // When
