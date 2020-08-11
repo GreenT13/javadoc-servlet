@@ -37,9 +37,9 @@ public class MavenCentralRepository implements ArtifactStorage {
     }
 
     @Override
-    public byte[] getJavaDocJar(String groupId, String artifactId, String version) {
+    public byte[] getJavaDocJar(Artifact artifact) {
         log.debug("Retrieving javadoc jar");
-        return mavenCentralApi.getJavaDocJar(groupId, artifactId, version);
+        return mavenCentralApi.getJavaDocJar(artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion());
     }
 
     private List<Artifact> convertSearchResponseToArtifactList(SearchResponse searchResponse) {

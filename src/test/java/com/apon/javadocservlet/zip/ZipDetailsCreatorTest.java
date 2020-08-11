@@ -38,7 +38,7 @@ class ZipDetailsCreatorTest {
     @Test
     public void md5HashIsCorrectlyDetermined() {
         // When
-        String md5Hash = ZipDetailsCreator.determineMd5Hash(TestZipConstants.FILE);
+        String md5Hash = ZipDetailsCreator.determineChecksum(TestZipConstants.FILE);
 
         // Then
         assertThat(md5Hash, equalTo("8fc0308268d356f2604a23a76fbbb1a1"));

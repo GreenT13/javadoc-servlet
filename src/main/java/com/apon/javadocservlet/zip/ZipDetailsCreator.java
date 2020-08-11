@@ -41,9 +41,9 @@ public class ZipDetailsCreator {
 
     /**
      * @param zip The zip file.
-     * @return The MD5 hash of the file.
+     * @return The checksum (MD5 hash) of the file.
      */
-    public static String determineMd5Hash(byte[] zip) {
+    public static String determineChecksum(byte[] zip) {
         return DigestUtils.md5Hex(zip);
     }
 }

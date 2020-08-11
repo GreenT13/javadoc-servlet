@@ -1,5 +1,6 @@
 package com.apon.javadocservlet.zip;
 
+import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
 import org.junit.jupiter.api.Test;
@@ -18,16 +19,14 @@ class ZipCacheTest {
     @Test
     public void happyFlow() throws ArtifactSearchException, ExecutionException {
         // Given
-        String groupId = "groupId";
-        String artifactId = "artifactId";
-        String version = "version";
+        Artifact artifact = new Artifact("groupId", "artifactId", "version");
 
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
-        doReturn(TestZipConstants.FILE).when(artifactStorage).getJavaDocJar(groupId, artifactId, version);
+        doReturn(TestZipConstants.FILE).when(artifactStorage).getJavaDocJar(artifact);
         ZipCache zipCache = new ZipCache(artifactStorage);
 
         // When
-        byte[] file = zipCache.getContentOfFileFromZip(groupId, artifactId, version, TestZipConstants.FILE_PATH_1).get();
+        byte[] file = zipCache.getContentOfFileFromZip(artifact, TestZipConstants.FILE_PATH_1).get();
 
         // Then
         assertThat(file, matchesString(TestZipConstants.FILE_CONTENT_1));
@@ -36,48 +35,28 @@ class ZipCacheTest {
     @Test
     public void throwExceptionWhenZipCouldNotBeFound() throws ArtifactSearchException {
         // Given
-        String groupId = "groupId";
-        String artifactId = "artifactId";
-        String version = "version";
+        Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
-        doThrow(ArtifactSearchException.class).when(artifactStorage).getJavaDocJar(groupId, artifactId, version);
+        doThrow(ArtifactSearchException.class).when(artifactStorage).getJavaDocJar(artifact);
         ZipCache zipCache = new ZipCache(artifactStorage);
 
         // When and then
-        assertThrows(ExecutionException.class, () -> zipCache.getContentOfFileFromZip(groupId, artifactId, version, "irrelevant"));
+        assertThrows(ExecutionException.class, () -> zipCache.getContentOfFileFromZip(artifact, "irrelevant"));
     }
 
     @Test
     public void returnEmptyIfFileCouldNotBeFound() throws ArtifactSearchException, ExecutionException {
         // Given
-        String groupId = "groupId";
-        String artifactId = "artifactId";
-        String version = "version";
+        Artifact artifact = new Artifact("groupId", "artifactId", "version");
 
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
-        doReturn(TestZipConstants.FILE).when(artifactStorage).getJavaDocJar(groupId, artifactId, version);
+        doReturn(TestZipConstants.FILE).when(artifactStorage).getJavaDocJar(artifact);
         ZipCache zipCache = new ZipCache(artifactStorage);
 
         // When
-        Optional<byte[]> file = zipCache.getContentOfFileFromZip(groupId, artifactId, version, "non-existent-path");
+        Optional<byte[]> file = zipCache.getContentOfFileFromZip(artifact, "non-existent-path");
 
         // Then
         assertThat("File should not be found", file.isEmpty(), equalTo(true));
-    }
-
-    @Test
-    public void twoArtifactKeysWithIdenticalContentAreEqual() {
-        // Given
-        String groupId = "groupId";
-        String artifactId = "artifactId";
-        String version = "version";
-
-        // When
-        ZipCache.ArtifactKey artifactKey1 = new ZipCache.ArtifactKey(groupId, artifactId, version);
-        ZipCache.ArtifactKey artifactKey2 = new ZipCache.ArtifactKey(groupId, artifactId, version);
-
-        // Then
-        assertThat(artifactKey1, equalTo(artifactKey2));
-        assertThat(artifactKey1.hashCode(), equalTo(artifactKey2.hashCode()));
     }
 }

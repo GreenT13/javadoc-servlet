@@ -10,14 +10,20 @@ public interface ArtifactStorage {
     /**
      * Find the artifacts for the given groupId and artifactId. The {@link Artifact#getVersion()} will be filled
      * with the latest version available.
-     * @param groupId The groupId.
+     * @param groupId    The groupId.
      * @param artifactId The artifactId.
      * @return List of {@link Artifact} objects.
      * @throws ArtifactSearchException If something goes wrong.
      */
     List<Artifact> findArtifacts(String groupId, String artifactId) throws ArtifactSearchException;
 
+    /**
+     * Find all versions for a specific artifact.
+     * @param artifact The artifact
+     * @return {@link ArtifactVersions}
+     * @throws ArtifactSearchException If something goes wrong.
+     */
     ArtifactVersions findArtifactVersions(Artifact artifact) throws ArtifactSearchException;
 
-    byte[] getJavaDocJar(String groupId, String artifactId, String version) throws ArtifactSearchException;
+    byte[] getJavaDocJar(Artifact artifact) throws ArtifactSearchException;
 }

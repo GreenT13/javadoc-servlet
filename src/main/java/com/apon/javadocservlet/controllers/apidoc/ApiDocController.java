@@ -38,7 +38,7 @@ public class ApiDocController {
         String filePath = urlUtil.getFilePathFromUrl(request, API_DOC_URL);
 
         // Check the request against the etag (MD5 hash of the zip). If it matches, no content has been changed.
-        String etag = zipCache.getMd5HashFromZip(artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion());
+        String etag = zipCache.getChecksum(artifact);
         if (webRequest.checkNotModified(etag)) {
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED)
                     .cacheControl(JavadocServletApplication.CACHE_CONTROL)
@@ -46,7 +46,7 @@ public class ApiDocController {
                     .build();
         }
 
-        Optional<byte[]> optionalFileContent = zipCache.getContentOfFileFromZip(artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion(), filePath);
+        Optional<byte[]> optionalFileContent = zipCache.getContentOfFileFromZip(artifact, filePath);
         if (optionalFileContent.isEmpty()) {
             // Return 404 also with cache control headers, so that this request will also not be called again.
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

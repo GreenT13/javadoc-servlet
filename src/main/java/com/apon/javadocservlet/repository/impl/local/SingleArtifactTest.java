@@ -45,10 +45,10 @@ public class SingleArtifactTest implements ArtifactStorage {
 
     @Override
     @SuppressFBWarnings(justification = "InputStream is incorrectly checked, see https://github.com/spotbugs/spotbugs/issues/1250.")
-    public byte[] getJavaDocJar(String groupId, String artifactId, String version) throws ArtifactSearchException {
+    public byte[] getJavaDocJar(Artifact artifact) throws ArtifactSearchException {
         log.debug("Reading jar from resources.");
 
-        if (!GROUP_ID.equals(groupId) || !ARTIFACT_ID.equals(artifactId) || !VERSION.equals(version)) {
+        if (!GROUP_ID.equals(artifact.getGroupId()) || !ARTIFACT_ID.equals(artifact.getArtifactId()) || !VERSION.equals(artifact.getVersion())) {
             throw new ArtifactSearchException("Cannot find this artifact.");
         }
 
