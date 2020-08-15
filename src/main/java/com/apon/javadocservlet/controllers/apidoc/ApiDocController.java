@@ -4,6 +4,7 @@ import com.apon.javadocservlet.JavadocServletApplication;
 import com.apon.javadocservlet.controllers.UrlUtil;
 import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.zip.ZipCache;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,19 +36,29 @@ public class ApiDocController {
         Artifact artifact = urlUtil.createArtifactFromUrl(webRequest, API_DOC_URL);
         String filePath = urlUtil.getFilePathFromUrl(webRequest, API_DOC_URL);
 
-        // Check the request against the etag (MD5 hash of the zip). If it matches, no content has been changed.
-        String etag = zipCache.getChecksum(artifact);
-        if (webRequest.checkNotModified(etag)) {
-            return ResponseEntity.status(HttpStatus.NOT_MODIFIED)
-                    .cacheControl(JavadocServletApplication.CACHE_CONTROL)
-                    .eTag(etag)
-                    .build();
+        // Check the request against the etag (checksum of the zip). If it matches, no content has been changed.
+        String ifNoneMatch = webRequest.getHeader(HttpHeaders.IF_NONE_MATCH);
+        if (ifNoneMatch != null) {
+            String etag = zipCache.getChecksum(artifact);
+            if (ifNoneMatch.equals(etag)) {
+                return ResponseEntity.status(HttpStatus.NOT_MODIFIED)
+                        .cacheControl(JavadocServletApplication.CACHE_CONTROL)
+                        .eTag(etag)
+                        .build();
+            }
         }
 
         Optional<byte[]> optionalFileContent = zipCache.getContentOfFileFromZip(artifact, filePath);
+
+        // Determine the etag after retrieving the content of the file. This way, we don't retrieve the artifact twice.
+        String etag = zipCache.getChecksum(artifact);
+
         if (optionalFileContent.isEmpty()) {
-            // Return 404 also with cache control headers, so that this request will also not be called again.
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            // Return 200 also with cache control headers, so that this request will also not be called again.
+            // If we would sent a 404, browsers will not send the if-none-match header, meaning we will need
+            // to read the javadoc jar into memory again. To avoid this mechanic, we return an HTTP 200.
+            // Very unconventional, but this is because javadoc tries to retrieve files that do not exist.
+            return ResponseEntity.status(HttpStatus.OK)
                     .cacheControl(JavadocServletApplication.CACHE_CONTROL)
                     .eTag(etag)
                     .build();

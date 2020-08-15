@@ -1,6 +1,9 @@
 package com.apon.javadocservlet.controllers;
 
+import com.apon.javadocservlet.repository.Artifact;
+import com.apon.javadocservlet.repository.ArtifactStorage;
 import com.apon.javadocservlet.zip.ZipCache;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
@@ -27,8 +30,8 @@ public class ControllerTestUtil {
     }
 
     public static WebRequest createWebRequest(String path) {
-        HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
-        doReturn(path).when(httpServletRequest).getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        MockHttpServletRequest httpServletRequest = new MockHttpServletRequest();
+        httpServletRequest.setAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE, path);
 
         // ServletWebRequest#getRequest() is final so we cannot mock it. Creating the object itself solves the issue.
         ServletWebRequest webRequest = spy(new ServletWebRequest(httpServletRequest));

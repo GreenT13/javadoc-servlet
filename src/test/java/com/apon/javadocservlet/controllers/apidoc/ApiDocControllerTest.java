@@ -5,6 +5,7 @@ import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.zip.ZipCache;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.WebRequest;
@@ -14,7 +15,6 @@ import java.util.concurrent.ExecutionException;
 import static com.apon.javadocservlet.controllers.apidoc.CacheControlMatcher.hasCacheControlWithEtag;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
@@ -53,7 +53,7 @@ class ApiDocControllerTest {
     }
 
     @Test
-    public void return404WithCacheControlWhenFileCouldNotBeFound() throws ExecutionException {
+    public void return200WhenFileCouldNotBeFound() throws ExecutionException {
         // Given
         String checksum = "d0c488922fd11c46a96e4ca81063bfa3";
         ZipCache zipCache = ControllerTestUtil.createZipCache(null, checksum);
@@ -64,7 +64,7 @@ class ApiDocControllerTest {
         ResponseEntity<byte[]> response = apiDocController.getFileInZip(webRequest);
 
         // Then
-        assertThat(response.getStatusCode(), equalTo(HttpStatus.NOT_FOUND));
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
         assertThat(response, hasCacheControlWithEtag(checksum));
     }
 
@@ -75,7 +75,7 @@ class ApiDocControllerTest {
         ZipCache zipCache = ControllerTestUtil.createZipCache(null, checksum);
         ApiDocController apiDocController = new ApiDocController(zipCache, ControllerTestUtil.createUrlUtil());
         WebRequest webRequest = ControllerTestUtil.createWebRequest(ApiDocController.API_DOC_URL + "url/does/not/matter");
-        doReturn(true).when(webRequest).checkNotModified(anyString());
+        doReturn(checksum).when(webRequest).getHeader(HttpHeaders.IF_NONE_MATCH);
 
         // When
         ResponseEntity<byte[]> response = apiDocController.getFileInZip(webRequest);

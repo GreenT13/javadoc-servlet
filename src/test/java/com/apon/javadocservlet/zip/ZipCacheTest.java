@@ -86,6 +86,6 @@ class ZipCacheTest {
         String checksum = zipCache.getChecksum(artifact);
 
         // Then
-        assertThat(checksum, equalTo("8fc0308268d356f2604a23a76fbbb1a1"));
+        assertThat(checksum, equalTo(TestZipConstants.FILE_CHECKSUM));
     }
 }

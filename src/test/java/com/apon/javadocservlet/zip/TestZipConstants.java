@@ -16,7 +16,15 @@ public class TestZipConstants {
 
     final static String FILE_CONTENT_1 = "Content of file1.txt";
     final static String FILE_CONTENT_2 = "Content of file2.txt";
-    static byte[] FILE;
+
+    /**
+     * Byte content of resource test.zip, which has the following content:
+     * - file1.txt (with text content "Content of file1.txt")
+     * - subdir/file2.txt (with text content "Content of file2.txt")
+     */
+    public static byte[] FILE;
+    public final static String FILE_CHECKSUM = "8fc0308268d356f2604a23a76fbbb1a1";
+    public final static String FILE_CHECKSUM_WITH_QUOTES = "\"8fc0308268d356f2604a23a76fbbb1a1\"";
 
     static {
         try (InputStream inputStream = TestZipConstants.class.getResourceAsStream(TEST_ZIP_LOCATION)) {

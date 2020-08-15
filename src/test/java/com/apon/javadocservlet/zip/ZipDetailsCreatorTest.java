@@ -10,11 +10,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 
-/**
- * This class uses the test.zip, which has the following content:
- * - file1.txt (with text content "Content of file1.txt")
- * - subdir/file2.txt (with text content "Content of file2.txt")
- */
 class ZipDetailsCreatorTest {
     @Test
     public void directoriesAreNotPartOfTheMap() throws IOException {
@@ -41,6 +36,6 @@ class ZipDetailsCreatorTest {
         String md5Hash = ZipDetailsCreator.determineChecksum(TestZipConstants.FILE);
 
         // Then
-        assertThat(md5Hash, equalTo("8fc0308268d356f2604a23a76fbbb1a1"));
+        assertThat(md5Hash, equalTo(TestZipConstants.FILE_CHECKSUM));
     }
 }
