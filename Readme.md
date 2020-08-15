@@ -20,26 +20,16 @@ I use the following tools for checking code quality:
 * SpotBugs
 
 # TODO items
-- [ ] Remove all TODO's from the code
 
 ## Tests
 - [ ] Integration tests with mocked Maven Central
 - [ ] Thymeleaf tests?? https://dzone.com/articles/spring-test-thymeleaf-views
-- [x] UrlUtil where ServletContext return some root path.
 - [ ] Run through all tests, cleanup code and make some util functions for easily creating objects
-- [ ] Replace Mockito.mock with actual classes to speed up performance?
-- [x] Add specific cache control test with checking headers and 304 response.
-- [x] Add integration test for the complete cache strategy
 
 ## General code thoughts
 - [ ] Error handling for incorrect URLs
 - [ ] Rethink exception catching strategy in ApiDocController
 - [ ] Support for "latest" URLs
-- [ ] Add @NonNull and @Nullable annotation throughout the code
-- [x] Add caching for ApiDocController methods (https://www.baeldung.com/spring-mvc-cache-headers)
-
-## Random technical stuff
-- [ ] Add IntelliJ run configurations
 
 ## Integrate repositories
 Create a single ENUM with all repository storages. I think we should maybe integrate them in some way, but what
