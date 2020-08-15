@@ -1,6 +1,7 @@
 package com.apon.javadocservlet.controllers;
 
 import com.apon.javadocservlet.zip.ZipCache;
+import org.springframework.mock.web.MockServletContext;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.HandlerMapping;
@@ -15,10 +16,14 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 public class ControllerTestUtil {
+    public static UrlUtil createUrlUtil(String contextPath) {
+        MockServletContext mockServletContext = new MockServletContext();
+        mockServletContext.setContextPath(contextPath);
+        return new UrlUtil(mockServletContext);
+    }
+
     public static UrlUtil createUrlUtil() {
-        ServletContext servletContext = mock(ServletContext.class);
-        doReturn("").when(servletContext).getContextPath();
-        return new UrlUtil(servletContext);
+        return createUrlUtil("");
     }
 
     public static WebRequest createWebRequest(String path) {
