@@ -3,43 +3,31 @@ package com.apon.javadocservlet.controllers;
 import com.apon.javadocservlet.controllers.apidoc.ApiDocController;
 import com.apon.javadocservlet.controllers.frontend.FrontendController;
 import com.apon.javadocservlet.repository.Artifact;
+import org.springframework.ui.Model;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
+/**
+ * Class with methods to easily create URLs or get information from URLs.
+ * To use Java code inside Thymeleaf templates, you need to configure the class as a Spring Bean. The only code that is
+ * needed from code base is determining the correct URLs. That is why this class is the only Spring Bean used in templates.
+ */
 @SuppressWarnings("unused")
 public class UrlUtil {
-    private final ServletContext servletContext;
+    private final String contextPath;
 
     public UrlUtil(ServletContext servletContext) {
-        this.servletContext = servletContext;
+        contextPath = getContextPathWithoutTrailingSlash(servletContext);
     }
 
-    public String getUrlToHome() {
-        return servletContext.getContextPath() + "/";
-    }
-
-    public String createUrlToArtifact(Artifact artifact, String version) {
-        return servletContext.getContextPath() + FrontendController.DOC_ULR + artifact.getGroupId() + "/" + artifact.getArtifactId() + "/" + version + "/index.html";
-    }
-
-    public String createUrlToArtifact(Artifact artifact) {
-        return createUrlToArtifact(artifact, artifact.getVersion());
-    }
-
-    public String createApiDocUrlToArtifact(Artifact artifact) {
-        return servletContext.getContextPath() + ApiDocController.API_DOC_URL + artifact.getGroupId() + "/" + artifact.getArtifactId() + "/" + artifact.getVersion() + "/index.html";
-    }
-
-    public String createUrlTo(String path) {
-        return servletContext.getContextPath() + FrontendController.DOC_ULR + path;
-    }
-
-    private String getContextPathWithoutTrailingSlash() {
+    /**
+     * @return The context path where the trailing slash is removed.
+     */
+    private String getContextPathWithoutTrailingSlash(ServletContext servletContext) {
         String contextPath = servletContext.getContextPath();
 
         // Remove the final slash if it exists, since this is already contained in the API_DOC_URL.
@@ -50,22 +38,71 @@ public class UrlUtil {
         return contextPath;
     }
 
+    /**
+     * @return The relative URL that can be used to link to the home page.
+     */
+    public String getUrlToHome() {
+        return contextPath + "/";
+    }
+
+    /**
+     * @param artifact The artifact.
+     * @param version  The version.
+     * @return The URL to the index.html of the Javadoc for the given artifact and version.
+     */
+    public String createUrlToArtifact(Artifact artifact, String version) {
+        return contextPath + FrontendController.DOC_ULR + artifact.getGroupId() + "/" + artifact.getArtifactId() + "/" + version + "/index.html";
+    }
+
+    /**
+     * @param artifact The artifact.
+     * @return The URL to the index.html of the Javadoc for the given artifact.
+     */
+    public String createUrlToArtifact(Artifact artifact) {
+        return createUrlToArtifact(artifact, artifact.getVersion());
+    }
+
+    /**
+     * @param artifact The artifact.
+     * @return The URL to the search by groupId screen, where the groupId of the artifact is used.
+     */
+    public String createUrlToSearchByGroupId(Artifact artifact) {
+        return contextPath + FrontendController.DOC_ULR + artifact.getGroupId();
+    }
+
+    /**
+     * @param artifact The artifact.
+     * @return The URL to the backend URL of the index.html of the javadoc of the artifact.
+     */
+    public String createApiDocUrlToArtifact(Artifact artifact) {
+        return contextPath + ApiDocController.API_DOC_URL + artifact.getGroupId() + "/" + artifact.getArtifactId() + "/" + artifact.getVersion() + "/index.html";
+    }
+
+    /**
+     * @return The base URL of {@link ApiDocController#getFileInZip(WebRequest)}.
+     */
     public String getApiDocUrl() {
-        return getContextPathWithoutTrailingSlash() + ApiDocController.API_DOC_URL;
+        return contextPath + ApiDocController.API_DOC_URL;
     }
 
+    /**
+     * @return The base URL of {@link FrontendController#iframe(Model, WebRequest)}.
+     */
     public String getDocUrl() {
-        return getContextPathWithoutTrailingSlash() + FrontendController.DOC_ULR;
+        return contextPath + FrontendController.DOC_ULR;
     }
 
+    /**
+     * @return The URL of {@link FrontendController#missingJavaDoc()}
+     */
     public String getNoJavaDocUrl() {
-        return getContextPathWithoutTrailingSlash() + FrontendController.MISSING_JAVADOC_URL;
+        return contextPath + FrontendController.MISSING_JAVADOC_URL;
     }
 
     /**
      * Get the called URL where the prefix is removed.
      * @param webRequest The request.
-     * @param prefix     The prefix. Make sure you add the starting and ending slash.
+     * @param prefix     The prefix. Make sure to add the starting and ending slash.
      * @return The relative called URL.
      */
     public String getRelativeUrl(WebRequest webRequest, String prefix) {
