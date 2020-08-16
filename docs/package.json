@@ -1,0 +1,13 @@
+{
+  "name": "javadoc-documentation",
+  "version": "0.0.0",
+  "description": "The documentation for the javadoc web applicatoin",
+  "main": "index.html",
+  "scripts": {
+    "serve": "docsify serve --port 3000",
+    "kill": "taskkill /IM \"node.exe\" /F"
+  },
+  "dependencies": {
+    "docsify-cli": "^4.4.1"
+  }
+}
