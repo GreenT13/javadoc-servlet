@@ -7,10 +7,13 @@ import com.apon.javadocservlet.repository.ArtifactStorage;
 import com.apon.javadocservlet.repository.ArtifactVersions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -28,7 +31,16 @@ public class FrontendController {
     }
 
     @GetMapping("/")
-    public String homePage(Model model) {
+    public String homePage(Model model, @RequestParam(required = false) String groupId) throws ArtifactSearchException {
+        FrontendForm frontendForm = new FrontendForm();
+
+        // If the groupId is filled, we want to search on the groupId.
+        if (groupId != null) {
+            frontendForm.setGroupId(groupId);
+            return search(model, frontendForm);
+        }
+
+        // Just show the home page.
         model.addAttribute("formObject", new FrontendForm());
         return "home";
     }
@@ -64,17 +76,6 @@ public class FrontendController {
         model.addAttribute("artifacts", artifacts);
         model.addAttribute("artifactVersions", artifactVersions);
         return "iframe";
-    }
-
-    @GetMapping(DOC_ULR + "*")
-    public String searchByGroupId(Model model, WebRequest webRequest) throws ArtifactSearchException {
-        String groupId = urlUtil.getRelativeUrl(webRequest, DOC_ULR);
-
-        List<Artifact> artifacts = artifactStorage.findArtifacts(groupId, null);
-
-        model.addAttribute("groupId", groupId);
-        model.addAttribute("foundArtifacts", artifacts);
-        return "search_by_group_id";
     }
 
     @GetMapping(MISSING_JAVADOC_URL)

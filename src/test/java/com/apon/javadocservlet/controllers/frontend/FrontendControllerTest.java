@@ -24,13 +24,13 @@ import static org.mockito.Mockito.*;
 class FrontendControllerTest {
 
     @Test
-    public void formObjectIsSetForHomePage() {
+    public void formObjectIsSetForHomePage() throws ArtifactSearchException {
         // Given
         FrontendController frontendController = new FrontendController(null, ControllerTestUtil.createUrlUtil());
         Model model = mock(Model.class);
 
         // When
-        String response = frontendController.homePage(model);
+        String response = frontendController.homePage(model, null);
 
         // Then
         assertThat("Home page must be shown", response, equalTo("home"));

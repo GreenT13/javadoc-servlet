@@ -18,16 +18,17 @@ import java.util.Arrays;
  */
 @SuppressWarnings("unused")
 public class UrlUtil {
+    /** The context path of the application. It will always start with a slash and never end with a slash. */
     private final String contextPath;
 
     public UrlUtil(ServletContext servletContext) {
-        contextPath = getContextPathWithoutTrailingSlash(servletContext);
+        contextPath = determineContextPath(servletContext);
     }
 
     /**
-     * @return The context path where the trailing slash is removed.
+     * @return The context path. It will always start with a slash and never end with a slash.
      */
-    private String getContextPathWithoutTrailingSlash(ServletContext servletContext) {
+    private String determineContextPath(ServletContext servletContext) {
         String contextPath = servletContext.getContextPath();
 
         // Remove the final slash if it exists, since this is already contained in the API_DOC_URL.
@@ -67,7 +68,7 @@ public class UrlUtil {
      * @return The URL to the search by groupId screen, where the groupId of the artifact is used.
      */
     public String createUrlToSearchByGroupId(Artifact artifact) {
-        return contextPath + FrontendController.DOC_ULR + artifact.getGroupId();
+        return contextPath + "/?groupId=" + artifact.getGroupId();
     }
 
     /**

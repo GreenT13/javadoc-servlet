@@ -32,7 +32,7 @@ public class UrlUtilTest {
         // When and then
         assertThat(urlUtil.createUrlToArtifact(artifact), equalTo(CONTEXT_PATH + FrontendController.DOC_ULR + "groupId/artifactId/1.0/index.html"));
         assertThat(urlUtil.createUrlToArtifact(artifact, "2.0"), equalTo(CONTEXT_PATH + FrontendController.DOC_ULR + "groupId/artifactId/2.0/index.html"));
-        assertThat(urlUtil.createUrlToSearchByGroupId(artifact), equalTo(CONTEXT_PATH + FrontendController.DOC_ULR + "groupId"));
+        assertThat(urlUtil.createUrlToSearchByGroupId(artifact), equalTo(CONTEXT_PATH + "/?groupId=groupId"));
         assertThat(urlUtil.createApiDocUrlToArtifact(artifact), equalTo(CONTEXT_PATH + ApiDocController.API_DOC_URL + "groupId/artifactId/1.0/index.html"));
     }
 
