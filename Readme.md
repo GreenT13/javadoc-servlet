@@ -31,6 +31,7 @@ I use the following tools for checking code quality:
 - [ ] Error handling for incorrect URLs
 - [ ] Rethink exception catching strategy in ApiDocController
 - [ ] Support for "latest" URLs
+- [ ] Add a "share" button, where you can create a link with specific details (link to class, package, home URL without index.html)
 
 ## Integrate repositories
 Create a single ENUM with all repository storages. I think we should maybe integrate them in some way, but what
