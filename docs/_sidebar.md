@@ -1,4 +1,4 @@
 <!-- docs/_sidebar.md -->
 
 * [Home](/)
-* [Tech stack](/Stack.md)
+* [Tech stack](/pages/Stack.md)
