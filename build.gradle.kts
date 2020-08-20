@@ -2,7 +2,6 @@ plugins {
     id("org.springframework.boot") version "2.3.2.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("java")
-    id("war")
     id("jacoco")
     id("com.github.kt3k.coveralls") version "2.10.1"
     id("checkstyle")
@@ -22,12 +21,11 @@ repositories {
 
 dependencies {
     implementation("com.google.guava:guava:29.0-jre")
-    providedCompile("com.github.spotbugs:spotbugs-annotations:4.1.1")
+    implementation("com.github.spotbugs:spotbugs-annotations:4.1.1")
     implementation("commons-codec:commons-codec:1.14")
 
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
