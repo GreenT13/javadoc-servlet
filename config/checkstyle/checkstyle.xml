@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN" "https://checkstyle.org/dtds/configuration_1_3.dtd">
+<!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
 <module name="Checker">
     <!-- Make sure no tabs are used in the entire code base. If they are used in output, use '\t' instead. -->
     <module name="FileTabCharacter">
@@ -8,7 +9,7 @@
 
     <module name="TreeWalker">
         <!-- Indentation must be in blocks of 4 spaces. -->
-        <module name="Indentation" />
+        <module name="Indentation"/>
 
         <!-- Always use empty lines after imports, packages and methods. No multiple empty lines allowed. -->
         <module name="EmptyLineSeparator">
@@ -18,12 +19,15 @@
         </module>
 
         <!-- All annotations must be after the javadoc and before the method. -->
-        <module name="AnnotationLocation" />
+        <module name="AnnotationLocation"/>
 
         <!-- Avoid importing all classes from a package. -->
         <module name="AvoidStarImport">
-            <!-- Mockito and Hamcrest are commonly imported using star in test files. -->
-            <property name="excludes" value="org.mockito.Mockito, org.hamcrest.Matchers"/>
+            <!-- Mockito, Hamcrest and Spring related functions are commonly imported using star in test files. -->
+            <property name="excludes" value="
+                org.mockito.Mockito,
+                org.hamcrest.Matchers,
+                org.springframework.test.web.servlet.result.MockMvcResultMatchers"/>
         </module>
 
         <!-- All final static fields should be capitalized and using underscores as separation.

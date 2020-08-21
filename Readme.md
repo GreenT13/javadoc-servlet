@@ -11,7 +11,7 @@ from repositories, based on given search criteria. Uses a lot of caching to avoi
 
 ## Tests
 - [ ] Integration tests with mocked Maven Central
-- [ ] Thymeleaf tests?? https://dzone.com/articles/spring-test-thymeleaf-views
+- [x] Thymeleaf tests?? https://dzone.com/articles/spring-test-thymeleaf-views
 - [ ] Run through all tests, cleanup code and make some util functions for easily creating objects
 
 ## General code thoughts
