@@ -1,12 +1,12 @@
 package com.apon.javadocservlet.zip;
 
+import com.apon.javadocservlet.controllers.ApplicationException;
 import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 import static com.apon.javadocservlet.zip.ByteMatcher.matchesString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 class ZipCacheTest {
     @Test
-    public void happyFlow() throws ArtifactSearchException, ExecutionException {
+    public void happyFlow() throws ArtifactSearchException {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
@@ -40,11 +40,11 @@ class ZipCacheTest {
         ZipCache zipCache = new ZipCache(artifactStorage);
 
         // When and then
-        assertThrows(ExecutionException.class, () -> zipCache.getContentOfFileFromZip(artifact, "irrelevant"));
+        assertThrows(ApplicationException.class, () -> zipCache.getContentOfFileFromZip(artifact, "irrelevant"));
     }
 
     @Test
-    public void returnEmptyIfFileCouldNotBeFound() throws ArtifactSearchException, ExecutionException {
+    public void returnEmptyIfFileCouldNotBeFound() throws ArtifactSearchException {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
@@ -59,7 +59,7 @@ class ZipCacheTest {
     }
 
     @Test
-    public void checksumCacheIsFilledAfterRetrievingFile() throws ArtifactSearchException, ExecutionException {
+    public void checksumCacheIsFilledAfterRetrievingFile() throws ArtifactSearchException {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
@@ -75,7 +75,7 @@ class ZipCacheTest {
     }
 
     @Test
-    public void correctChecksumIsRetrieved() throws ArtifactSearchException, ExecutionException {
+    public void correctChecksumIsRetrieved() throws ArtifactSearchException {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
@@ -87,5 +87,17 @@ class ZipCacheTest {
 
         // Then
         assertThat(checksum, equalTo(TestZipConstants.FILE_CHECKSUM));
+    }
+
+    @Test
+    public void checksumThrowsErrorWhenCacheThrowsException() throws ArtifactSearchException {
+        // Given
+        Artifact artifact = new Artifact("groupId", "artifactId", "version");
+        ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
+        doThrow(ArtifactSearchException.class).when(artifactStorage).getJavaDocJar(artifact);
+        ZipCache zipCache = new ZipCache(artifactStorage);
+
+        // When and then
+        assertThrows(ApplicationException.class, () -> zipCache.getChecksum(artifact));
     }
 }

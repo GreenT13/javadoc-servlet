@@ -2,6 +2,7 @@ package com.apon.javadocservlet;
 
 import com.apon.javadocservlet.controllers.ControllerTestUtil;
 import com.apon.javadocservlet.controllers.UrlUtil;
+import com.apon.javadocservlet.controllers.apidoc.ApiDocController;
 import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.repository.ArtifactStorage;
 import com.apon.javadocservlet.repository.ArtifactVersions;
@@ -21,7 +22,6 @@ import java.util.Collections;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -59,9 +59,9 @@ class JavadocServletApplicationTests {
         when(artifactStorage.findArtifactVersions(artifact)).thenReturn(new ArtifactVersions(Collections.singletonList(new ArtifactVersions.Version("1.0", true))));
         when(artifactStorage.findArtifacts(artifact.getGroupId(), artifact.getArtifactId())).thenReturn(Collections.singletonList(artifact));
 
-        RequestBuilder requestBuilder1 = MockMvcRequestBuilders.get("/apidoc/groupId/artifactId/1.0/file1.txt");
-        RequestBuilder requestBuilder2 = MockMvcRequestBuilders.get("/apidoc/groupId/artifactId/1.0/subdir/file2.txt");
-        RequestBuilder requestBuilder3 = MockMvcRequestBuilders.get("/apidoc/groupId/artifactId/1.0/file1.txt")
+        RequestBuilder requestBuilder1 = MockMvcRequestBuilders.get(ApiDocController.API_DOC_URL + "groupId/artifactId/1.0/file1.txt");
+        RequestBuilder requestBuilder2 = MockMvcRequestBuilders.get(ApiDocController.API_DOC_URL + "groupId/artifactId/1.0/subdir/file2.txt");
+        RequestBuilder requestBuilder3 = MockMvcRequestBuilders.get(ApiDocController.API_DOC_URL + "groupId/artifactId/1.0/file1.txt")
                 .header(HttpHeaders.IF_NONE_MATCH, TestZipConstants.FILE_CHECKSUM_WITH_QUOTES);
 
         // When
@@ -73,6 +73,6 @@ class JavadocServletApplicationTests {
                 .andExpect(status().isNotModified());
 
         // Verify that we retrieved the jar exactly once.
-        //verify(artifactStorage).getJavaDocJar(artifact);
+        verify(artifactStorage).getJavaDocJar(artifact);
     }
 }

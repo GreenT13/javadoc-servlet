@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
 class ApiDocControllerTest {
 
     @Test
-    public void urlIsParsedCorrectly() throws ExecutionException {
+    public void urlIsParsedCorrectly() {
         // Given
         byte[] file = new byte[]{1, 2, 3};
         String checksum = "d0c488922fd11c46a96e4ca81063bfa3";
@@ -53,7 +53,7 @@ class ApiDocControllerTest {
     }
 
     @Test
-    public void return200WhenFileCouldNotBeFound() throws ExecutionException {
+    public void return200WhenFileCouldNotBeFound() {
         // Given
         String checksum = "d0c488922fd11c46a96e4ca81063bfa3";
         ZipCache zipCache = ControllerTestUtil.createZipCache(null, checksum);
@@ -69,7 +69,7 @@ class ApiDocControllerTest {
     }
 
     @Test
-    public void return304WithCacheControlWhenEtagMatches() throws ExecutionException {
+    public void return304WithCacheControlWhenEtagMatches() {
         // Given
         String checksum = "d0c488922fd11c46a96e4ca81063bfa3";
         ZipCache zipCache = ControllerTestUtil.createZipCache(null, checksum);

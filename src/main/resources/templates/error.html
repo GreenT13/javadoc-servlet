@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--suppress HtmlUnknownAttribute -->
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Error</title>
+</head>
+<body>
+
+<div class="d-flex justify-content-center align-items-center pt-5">
+    <h1 class="mr-3 pr-3 align-top border-right inline-block align-content-center"><span th:text="${status}">404</span>
+    </h1>
+    <div class="inline-block align-middle">
+        <h2 class="font-weight-normal lead inline" id="desc">
+            <span th:text="${error}">Page Not Found</span>
+
+            <!-- Show link to toggle stacktrace, only if an exception was actually thrown. This value is only available
+                 if the property Spring Boot property server.error.include-stacktrace is set to always.-->
+            <a class="text-danger" th:if="${trace} != null" data-toggle="collapse" href="#stacktrace"
+               aria-expanded="false"
+               aria-controls="collapseExample">Show stacktrace</a>
+        </h2>
+    </div>
+</div>
+
+<div class="collapse" id="stacktrace">
+    <div class="d-flex justify-content-center align-items-center">
+        <pre th:text="${trace}">com.apon.javadocservlet.repository.ArtifactSearchException
+        at com.apon.javadocservlet.controllers.frontend.FrontendController.throwError(FrontendController.java:87)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+        at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)</pre>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

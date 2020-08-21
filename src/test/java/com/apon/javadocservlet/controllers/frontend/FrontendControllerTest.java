@@ -1,5 +1,6 @@
 package com.apon.javadocservlet.controllers.frontend;
 
+import com.apon.javadocservlet.controllers.ApplicationException;
 import com.apon.javadocservlet.controllers.ControllerTestUtil;
 import com.apon.javadocservlet.controllers.apidoc.ApiDocController;
 import com.apon.javadocservlet.repository.Artifact;
@@ -17,6 +18,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -90,4 +92,22 @@ class FrontendControllerTest {
         assertThat(argumentCaptor.getValue(), equalTo(ApiDocController.API_DOC_URL + afterDocUrl));
     }
 
+    @Test
+    public void exceptionsAreThrownAsApplicationException() throws ArtifactSearchException {
+        // Given
+        // Storage that throws an exception.
+        ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
+        doThrow(ArtifactSearchException.class).when(artifactStorage).findArtifacts(any(), any());
+        doThrow(ArtifactSearchException.class).when(artifactStorage).findArtifactVersions(any());
+        FrontendController frontendController = new FrontendController(artifactStorage, ControllerTestUtil.createUrlUtil());
+
+        // Input variables for the methods, content is not relevant.
+        Model model = mock(Model.class);
+        WebRequest webRequest = ControllerTestUtil.createWebRequest(FrontendController.DOC_ULR + "groupId/artifactId/version/index.html");
+        FrontendForm frontendForm = new FrontendForm();
+
+        // When and then
+        assertThrows(ApplicationException.class, () -> frontendController.iframe(model, webRequest));
+        assertThrows(ApplicationException.class, () -> frontendController.search(model, frontendForm));
+    }
 }

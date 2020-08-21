@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
+/**
+ * Controller for serving files inside javadoc artifacts.
+ */
 @Controller
 public class ApiDocController {
     public final static String API_DOC_URL = "/apidoc/";
@@ -29,7 +31,7 @@ public class ApiDocController {
 
     @GetMapping(API_DOC_URL + "**")
     @ResponseBody
-    public ResponseEntity<byte[]> getFileInZip(WebRequest webRequest) throws ExecutionException {
+    public ResponseEntity<byte[]> getFileInZip(WebRequest webRequest) {
         // Note: all responses must always use the cache control headers, even the 304 request.
         // So make sure to always use the CACHE_CONTROL and etag when building the ResponseEntity.
 

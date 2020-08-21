@@ -1,11 +1,7 @@
 package com.apon.javadocservlet.zip;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-
 import com.apon.javadocservlet.JavadocServletApplication;
+import com.apon.javadocservlet.controllers.ApplicationException;
 import com.apon.javadocservlet.repository.Artifact;
 import com.apon.javadocservlet.repository.ArtifactSearchException;
 import com.apon.javadocservlet.repository.ArtifactStorage;
@@ -13,6 +9,11 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 public class ZipCache {
     private final ArtifactStorage artifactStorage;
@@ -54,21 +55,29 @@ public class ZipCache {
      * @param artifact The artifact
      * @param filePath The relative path of the file inside the zip
      */
-    public Optional<byte[]> getContentOfFileFromZip(Artifact artifact, String filePath) throws ExecutionException {
-        Map<String, byte[]> zipContent = cachedZipContent.get(artifact);
+    public Optional<byte[]> getContentOfFileFromZip(Artifact artifact, String filePath) {
+        try {
+            Map<String, byte[]> zipContent = cachedZipContent.get(artifact);
 
-        if (!zipContent.containsKey(filePath)) {
-            return Optional.empty();
+            if (!zipContent.containsKey(filePath)) {
+                return Optional.empty();
+            }
+
+            return Optional.of(zipContent.get(filePath));
+        } catch (ExecutionException e) {
+            throw new ApplicationException(e);
         }
-
-        return Optional.of(zipContent.get(filePath));
     }
 
     /**
      * @param artifact The artifact
      * @return The checksum of the javadoc.jar corresponding to the artifact.
      */
-    public String getChecksum(Artifact artifact) throws ExecutionException {
-        return zipChecksum.get(artifact);
+    public String getChecksum(Artifact artifact) {
+        try {
+            return zipChecksum.get(artifact);
+        } catch (ExecutionException e) {
+            throw new ApplicationException(e);
+        }
     }
 }

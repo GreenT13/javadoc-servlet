@@ -2,6 +2,9 @@ package com.apon.javadocservlet.controllers.frontend;
 
 import java.util.Objects;
 
+/**
+ * Class used in Thymeleaf templates to represent fields in a form.
+ */
 public class FrontendForm {
     private String groupId;
     private String artifactId;
