@@ -3,7 +3,6 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("java")
     id("jacoco")
-    id("com.github.kt3k.coveralls") version "2.10.1"
     id("checkstyle")
     id("com.github.spotbugs") version "4.5.0"
 }
@@ -13,7 +12,6 @@ version = "0.0.1-SNAPSHOT"
 java {
     sourceCompatibility = JavaVersion.VERSION_11
 }
-
 
 repositories {
     mavenCentral()
@@ -37,8 +35,8 @@ tasks.test {
 }
 
 // Configure JaCoCo.
-tasks.test {
-    // Reports are always generated after running tests.
+tasks.check {
+    // Reports are always generated after running the checks.
     finalizedBy(tasks.jacocoTestReport)
 }
 tasks.jacocoTestReport {
@@ -48,15 +46,11 @@ tasks.jacocoTestReport {
 
 tasks.jacocoTestReport {
     reports {
-        // Coveralls plugin depends on xml format report.
+        // Codecov.io depends on xml format report.
         xml.isEnabled = true
         // Add HTML report readable by humans.
         html.isEnabled = true
     }
-}
-
-coveralls {
-    jacocoReportPath = "build/reports/jacoco/test/jacocoTestReport.xml"
 }
 
 // Display final report as HTML.

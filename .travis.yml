@@ -2,4 +2,4 @@ language: java
 jdk:
   - openjdk14
 after_success:
-  - ./gradlew jacocoTestReport coveralls
+  - bash <(curl -s https://codecov.io/bash)
