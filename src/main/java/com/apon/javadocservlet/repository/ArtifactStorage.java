@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface ArtifactStorage {
     /**
-     * Find the artifacts for the given groupId and artifactId. The {@link Artifact#getVersion()} will be filled
+     * Finds the artifacts for the given groupId and artifactId. The {@link Artifact#getVersion()} will be filled
      * with the latest version available.
      * @param groupId    The groupId.
      * @param artifactId The artifactId.
@@ -18,12 +18,18 @@ public interface ArtifactStorage {
     List<Artifact> findArtifacts(String groupId, String artifactId) throws ArtifactSearchException;
 
     /**
-     * Find all versions for a specific artifact.
-     * @param artifact The artifact
+     * Finds all versions for a specific artifact.
+     * @param artifact The artifact.
      * @return {@link ArtifactVersions}
      * @throws ArtifactSearchException If something goes wrong.
      */
     ArtifactVersions findArtifactVersions(Artifact artifact) throws ArtifactSearchException;
 
+    /**
+     * Gets the javadoc artifact.
+     * @param artifact The artifact.
+     * @return The javadoc artifact as byte array.
+     * @throws ArtifactSearchException If something goes wrong.
+     */
     byte[] getJavaDocJar(Artifact artifact) throws ArtifactSearchException;
 }

@@ -16,7 +16,6 @@ import java.util.Arrays;
  * To use Java code inside Thymeleaf templates, you need to configure the class as a Spring Bean. The only code that is
  * needed from code base is determining the correct URLs. That is why this class is the only Spring Bean used in templates.
  */
-@SuppressWarnings("unused")
 public class UrlUtil {
     /** The context path of the application. It will always start with a slash and never end with a slash. */
     private final String contextPath;
@@ -61,14 +60,6 @@ public class UrlUtil {
      */
     public String createUrlToArtifact(Artifact artifact) {
         return createUrlToArtifact(artifact, artifact.getVersion());
-    }
-
-    /**
-     * @param artifact The artifact.
-     * @return The URL to the search by groupId screen, where the groupId of the artifact is used.
-     */
-    public String createUrlToSearchByGroupId(Artifact artifact) {
-        return contextPath + "/?groupId=" + artifact.getGroupId();
     }
 
     /**

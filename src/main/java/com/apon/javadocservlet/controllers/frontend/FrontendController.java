@@ -7,13 +7,10 @@ import com.apon.javadocservlet.repository.ArtifactStorage;
 import com.apon.javadocservlet.repository.ArtifactVersions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -31,16 +28,7 @@ public class FrontendController {
     }
 
     @GetMapping("/")
-    public String homePage(Model model, @RequestParam(required = false) String groupId) throws ArtifactSearchException {
-        FrontendForm frontendForm = new FrontendForm();
-
-        // If the groupId is filled, we want to search on the groupId.
-        if (groupId != null) {
-            frontendForm.setGroupId(groupId);
-            return search(model, frontendForm);
-        }
-
-        // Just show the home page.
+    public String homePage(Model model) {
         model.addAttribute("formObject", new FrontendForm());
         return "home";
     }
@@ -75,6 +63,12 @@ public class FrontendController {
         model.addAttribute("selectedArtifact", artifact);
         model.addAttribute("artifacts", artifacts);
         model.addAttribute("artifactVersions", artifactVersions);
+
+        // The link showing the groupId on screen should be able to redirect to the home screen, with the groupId
+        // filled as search option. The frontendForm object needs to be created in Java.
+        FrontendForm frontendForm = new FrontendForm();
+        frontendForm.setGroupId(artifact.getGroupId());
+        model.addAttribute("formObject", frontendForm);
         return "iframe";
     }
 

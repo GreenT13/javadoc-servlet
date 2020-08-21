@@ -24,13 +24,13 @@ import static org.mockito.Mockito.*;
 class FrontendControllerTest {
 
     @Test
-    public void formObjectIsSetForHomePage() throws ArtifactSearchException {
+    public void formObjectIsSetForHomePage() {
         // Given
         FrontendController frontendController = new FrontendController(null, ControllerTestUtil.createUrlUtil());
         Model model = mock(Model.class);
 
         // When
-        String response = frontendController.homePage(model, null);
+        String response = frontendController.homePage(model);
 
         // Then
         assertThat("Home page must be shown", response, equalTo("home"));
@@ -63,26 +63,6 @@ class FrontendControllerTest {
         ArgumentCaptor<?> argumentCaptor = ArgumentCaptor.forClass(artifactList.getClass());
         verify(model).addAttribute(eq("foundArtifacts"), argumentCaptor.capture());
         assertThat(argumentCaptor.getValue(), equalTo(artifactList));
-    }
-
-    @Test
-    public void homeWithGroupIdEqualsSearched() throws ArtifactSearchException {
-        // Given
-        ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
-        List<Artifact> artifactList = Collections.singletonList(new Artifact("groupId", "artifactId", "version"));
-        doReturn(artifactList).when(artifactStorage).findArtifacts(anyString(), isNull());
-        FrontendController frontendController = spy(new FrontendController(artifactStorage, ControllerTestUtil.createUrlUtil()));
-        FrontendForm frontendForm = new FrontendForm();
-        String groupId = "groupId";
-        frontendForm.setGroupId(groupId);
-        Model model = mock(Model.class);
-
-        // When
-        String homeResponse = frontendController.homePage(model, groupId);
-
-        // Then
-        assertThat(homeResponse, equalTo("home"));
-        verify(frontendController).search(model, frontendForm);
     }
 
     @Test

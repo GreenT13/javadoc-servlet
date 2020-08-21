@@ -42,7 +42,14 @@
             <a class="nav-link" th:href="${@urlUtil.getUrlToHome()}">Home</a>
         </li>
         <li class="nav-item active">
-            <a class="nav-link" th:text="${selectedArtifact.groupId}" th:href="${@urlUtil.createUrlToSearchByGroupId(selectedArtifact)}">group.id</a>
+            <!-- Add a form to be able to redirect to the home page, where we automatically search by groupId.
+                 This must be a POST action, so we need to create a form around the link. -->
+            <form th:action="@{${@urlUtil.getUrlToHome()}}" th:object="${formObject}"
+                  method="post" style="margin: 0">
+                <input type="hidden" id="formGroupGroupId" th:value="${formObject.groupId}" th:field="*{groupId}">
+                <a class="nav-link" th:text="${selectedArtifact.groupId}"
+                   href="#" onclick="this.closest('form').submit();return false;">group.id</a>
+            </form>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="artifactDropdown" role="button" data-toggle="dropdown"
@@ -58,7 +65,8 @@
         </li>
 
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="artifactVersionDropdown" role="button" data-toggle="dropdown"
+            <a class="nav-link dropdown-toggle" href="#" id="artifactVersionDropdown" role="button"
+               data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false" th:text="${selectedArtifact.version}">
                 X.Y.Z
             </a>
@@ -105,7 +113,6 @@
         // The URL will always start with /apidoc/. Replace this with with /doc/, to match the frontend url.
         let docUrl = /*[[${@urlUtil.getDocUrl()}]]*/ "/doc/";
         let apiDocUrl = /*[[${@urlUtil.getApiDocUrl()}]]*/ "/apidoc/";
-        console.log(docUrl, apiDocUrl);
         window.history.pushState(null, "Apidoc", docUrl + relativePath.substring(apiDocUrl.length));
     }
 </script>
