@@ -11,12 +11,4 @@ public class ArtifactSearchException extends Exception {
     public ArtifactSearchException(String message) {
         super(message);
     }
-
-    public ArtifactSearchException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public ArtifactSearchException(Throwable cause) {
-        super(cause);
-    }
 }

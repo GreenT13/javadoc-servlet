@@ -1,12 +1,12 @@
-package com.apon.javadocservlet.repository;
+package com.apon.javadocservlet.controllers.frontend;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
-class ArtifactTest {
+class FrontendFormTest {
 
     @Test
     public void equalsAndHashCodeAreImplemented() {
-        EqualsVerifier.simple().forClass(Artifact.class).verify();
+        EqualsVerifier.simple().forClass(FrontendForm.class).verify();
     }
 }

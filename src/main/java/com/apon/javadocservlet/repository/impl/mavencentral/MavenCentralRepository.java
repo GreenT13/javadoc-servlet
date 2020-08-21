@@ -53,6 +53,6 @@ public class MavenCentralRepository implements ArtifactStorage {
                 .map((doc) -> new ArtifactVersions.Version(doc.version, doc.ec.contains("-javadoc.jar")))
                 .collect(Collectors.toList());
 
-        return new ArtifactVersions(artifact, versions);
+        return new ArtifactVersions(versions);
     }
 }

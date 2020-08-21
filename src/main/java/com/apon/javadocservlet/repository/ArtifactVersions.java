@@ -8,11 +8,9 @@ import java.util.Objects;
  * the specification whether each version contains a javadoc.jar or not.
  */
 public class ArtifactVersions {
-    private final Artifact artifact;
     private final List<Version> versions;
 
-    public ArtifactVersions(Artifact artifact, List<Version> versions) {
-        this.artifact = artifact;
+    public ArtifactVersions(List<Version> versions) {
         this.versions = List.copyOf(versions);
     }
 
@@ -21,13 +19,12 @@ public class ArtifactVersions {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ArtifactVersions that = (ArtifactVersions) o;
-        return Objects.equals(artifact, that.artifact) &&
-                Objects.equals(versions, that.versions);
+        return Objects.equals(versions, that.versions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(artifact, versions);
+        return Objects.hash(versions);
     }
 
     public static class Version {
@@ -69,10 +66,6 @@ public class ArtifactVersions {
         public boolean isHasJavaDocJar() {
             return hasJavaDocJar;
         }
-    }
-
-    public Artifact getArtifact() {
-        return artifact;
     }
 
     public List<Version> getVersions() {

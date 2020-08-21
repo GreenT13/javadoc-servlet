@@ -56,7 +56,7 @@ class JavadocServletApplicationTests {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "1.0");
         when(artifactStorage.getJavaDocJar(artifact)).thenReturn(TestZipConstants.FILE);
-        when(artifactStorage.findArtifactVersions(artifact)).thenReturn(new ArtifactVersions(artifact, Collections.singletonList(new ArtifactVersions.Version("1.0", true))));
+        when(artifactStorage.findArtifactVersions(artifact)).thenReturn(new ArtifactVersions(Collections.singletonList(new ArtifactVersions.Version("1.0", true))));
         when(artifactStorage.findArtifacts(artifact.getGroupId(), artifact.getArtifactId())).thenReturn(Collections.singletonList(artifact));
 
         RequestBuilder requestBuilder1 = MockMvcRequestBuilders.get("/apidoc/groupId/artifactId/1.0/file1.txt");

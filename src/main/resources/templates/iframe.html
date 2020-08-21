@@ -42,7 +42,7 @@
             <a class="nav-link" th:href="${@urlUtil.getUrlToHome()}">Home</a>
         </li>
         <li class="nav-item active">
-            <a class="nav-link" th:text="${artifactVersions.artifact.groupId}" th:href="${@urlUtil.createUrlToSearchByGroupId(artifactVersions.artifact)}">group.id</a>
+            <a class="nav-link" th:text="${selectedArtifact.groupId}" th:href="${@urlUtil.createUrlToSearchByGroupId(selectedArtifact)}">group.id</a>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="artifactDropdown" role="button" data-toggle="dropdown"

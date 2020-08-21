@@ -66,12 +66,32 @@ class FrontendControllerTest {
     }
 
     @Test
+    public void homeWithGroupIdEqualsSearched() throws ArtifactSearchException {
+        // Given
+        ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
+        List<Artifact> artifactList = Collections.singletonList(new Artifact("groupId", "artifactId", "version"));
+        doReturn(artifactList).when(artifactStorage).findArtifacts(anyString(), isNull());
+        FrontendController frontendController = spy(new FrontendController(artifactStorage, ControllerTestUtil.createUrlUtil()));
+        FrontendForm frontendForm = new FrontendForm();
+        String groupId = "groupId";
+        frontendForm.setGroupId(groupId);
+        Model model = mock(Model.class);
+
+        // When
+        String homeResponse = frontendController.homePage(model, groupId);
+
+        // Then
+        assertThat(homeResponse, equalTo("home"));
+        verify(frontendController).search(model, frontendForm);
+    }
+
+    @Test
     public void iframeUrlHasDocReplacedWithApiDoc() throws ArtifactSearchException {
         // Given
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
         List<Artifact> artifactList = Collections.singletonList(new Artifact("groupId", "artifactId", "version"));
         doReturn(artifactList).when(artifactStorage).findArtifacts(anyString(), anyString());
-        ArtifactVersions artifactVersions = new ArtifactVersions(artifactList.get(0), Collections.singletonList(new ArtifactVersions.Version("version", true)));
+        ArtifactVersions artifactVersions = new ArtifactVersions(Collections.singletonList(new ArtifactVersions.Version("version", true)));
         doReturn(artifactVersions).when(artifactStorage).findArtifactVersions(any());
         FrontendController frontendController = new FrontendController(artifactStorage, ControllerTestUtil.createUrlUtil());
         Model model = mock(Model.class);
