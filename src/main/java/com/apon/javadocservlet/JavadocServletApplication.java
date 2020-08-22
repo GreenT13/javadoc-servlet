@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.CacheControl;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.ServletContext;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +31,7 @@ public class JavadocServletApplication {
 
     @Bean
     public ArtifactStorage getArtifactStorage() {
-        return new MavenCentralRepository(new WebserviceClient());
+        return new MavenCentralRepository(new WebserviceClient(RestTemplate::new));
     }
 
     @Bean

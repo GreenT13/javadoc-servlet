@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.WebRequest;
 
-import java.util.concurrent.ExecutionException;
-
 import static com.apon.javadocservlet.controllers.apidoc.CacheControlMatcher.hasCacheControlWithEtag;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;

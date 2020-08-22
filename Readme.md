@@ -19,3 +19,4 @@ from repositories, based on given search criteria. Uses a lot of caching to avoi
 - [x] Rethink exception catching strategy in ApiDocController
 - [ ] Support for "latest" URLs
 - [ ] Add a "share" button, where you can create a link with specific details (link to class, package, home URL without index.html)
+- [ ] Add more to the docs

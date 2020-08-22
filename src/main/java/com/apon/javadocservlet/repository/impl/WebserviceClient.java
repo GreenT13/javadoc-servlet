@@ -9,11 +9,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Class for executing webservice calls.
  */
 public class WebserviceClient {
+
+    /** Supplier for RestTemplate objects. Supplier pattern is used to be able to test this class properly. */
+    private final Supplier<RestTemplate> restTemplateSupplier;
+
+    public WebserviceClient(Supplier<RestTemplate> restTemplateSupplier) {
+        this.restTemplateSupplier = restTemplateSupplier;
+    }
 
     /**
      * Creates a URI from the supplied parameters. The URI will not be encoded, since {@link RestTemplate} functions
@@ -39,18 +47,18 @@ public class WebserviceClient {
      * @return Instance of the response object type
      */
     public <T> T get(String url, Map<String, String> queryParams, Class<T> resultClass) {
-        final HttpHeaders httpHeaders = new HttpHeaders();
+        HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         String uri = createUriNotEncoded(url, queryParams);
 
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = restTemplateSupplier.get();
         HttpEntity<T> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(httpHeaders), resultClass);
         return response.getBody();
     }
 
     /**
-     * Returns the byte content of a jar from an URL.
+     * Returns the byte content of a jar from a URL.
      * @param url         The url
      * @param queryParams The query parameters
      * @return Byte content of the jar
@@ -61,7 +69,7 @@ public class WebserviceClient {
 
         String uri = createUriNotEncoded(url, queryParams);
 
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = restTemplateSupplier.get();
         HttpEntity<byte[]> response = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(httpHeaders), byte[].class);
 
         return response.getBody();
