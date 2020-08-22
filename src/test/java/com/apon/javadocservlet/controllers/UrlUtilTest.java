@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import static com.apon.javadocservlet.controllers.ControllerTestUtil.createUrlUtil;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UrlUtilTest {
     /** String that can be used as context path. Unless a specific value is used, use this one. */
@@ -55,6 +55,15 @@ public class UrlUtilTest {
         assertThat(urlUtil.getUrlToHome(), equalTo(CONTEXT_PATH + "/"));
     }
 
+    @Test
+    public void exceptionIsThrownIfUrlIsIncorrect() {
+        // Given
+        UrlUtil urlUtil = createUrlUtil(CONTEXT_PATH + "/");
+        String incorrectUrl = "my.group.id/my.artifact.id";
+
+        // When
+        assertThrows(ApplicationException.class, () -> urlUtil.splitUrl(incorrectUrl));
+    }
 }
 
 

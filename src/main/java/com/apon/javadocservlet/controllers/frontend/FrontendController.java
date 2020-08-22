@@ -65,7 +65,7 @@ public class FrontendController {
             ArtifactVersions.Version currentVersion = artifactVersions.getVersions().stream()
                     .filter(version -> version.getVersion().equals(artifact.getVersion()))
                     .findAny()
-                    .orElseThrow(() -> new ApplicationException("Could not determine artifact version"));
+                    .orElseThrow(() -> new ApplicationException("No artifact versions found for " + artifact.getGroupId() + ":" + artifact.getArtifactId()));
             model.addAttribute("hasNoJavaDocJar", !currentVersion.isHasJavaDocJar());
 
             model.addAttribute("apiDocUrl", urlUtil.createApiDocUrlToArtifact(artifact));

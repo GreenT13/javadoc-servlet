@@ -110,4 +110,18 @@ class FrontendControllerTest {
         assertThrows(ApplicationException.class, () -> frontendController.iframe(model, webRequest));
         assertThrows(ApplicationException.class, () -> frontendController.search(model, frontendForm));
     }
+
+    @Test
+    public void exceptionIsThrownWhenNoArtifactVersionsAreFound() throws ArtifactSearchException {
+        // Given
+        ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
+        doReturn(new ArtifactVersions(Collections.emptyList())).when(artifactStorage).findArtifactVersions(any());
+        FrontendController frontendController = new FrontendController(artifactStorage, ControllerTestUtil.createUrlUtil());
+        Model model = mock(Model.class);
+        String afterDocUrl = "groupId/artifactId/version/index.html";
+        WebRequest webRequest = ControllerTestUtil.createWebRequest(FrontendController.DOC_ULR + afterDocUrl);
+
+        // When
+        assertThrows(ApplicationException.class, () -> frontendController.iframe(model, webRequest));
+    }
 }

@@ -3,6 +3,7 @@ package com.apon.javadocservlet.controllers;
 import com.apon.javadocservlet.controllers.apidoc.ApiDocController;
 import com.apon.javadocservlet.controllers.frontend.FrontendController;
 import com.apon.javadocservlet.repository.Artifact;
+import com.google.common.annotations.VisibleForTesting;
 import org.springframework.ui.Model;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
@@ -110,7 +111,8 @@ public class UrlUtil {
      */
     public Artifact createArtifactFromUrl(WebRequest webRequest, String prefix) {
         String relativeUrl = getRelativeUrl(webRequest, prefix);
-        String[] urlSegments = relativeUrl.split("/");
+        String[] urlSegments = splitUrl(relativeUrl);
+
         String groupId = urlSegments[0];
         String artifactId = urlSegments[1];
         String version = urlSegments[2];
@@ -127,11 +129,24 @@ public class UrlUtil {
      */
     public String getFilePathFromUrl(WebRequest webRequest, String prefix) {
         String relativeUrl = getRelativeUrl(webRequest, prefix);
-        String[] urlSegments = relativeUrl.split("/");
+        String[] urlSegments = splitUrl(relativeUrl);
 
         // Remove the first three segments, which represent the groupId, artifactId and version.
         urlSegments = Arrays.copyOfRange(urlSegments, 3, urlSegments.length);
 
         return String.join("/", urlSegments);
+    }
+
+    /**
+     * Splits the URL into segments split by forward slash. It also checks if we have at least three segments.
+     * @param relativeUrl The URL to split.
+     * @return The segments.
+     */
+    String[] splitUrl(String relativeUrl) {
+        String[] urlSegments = relativeUrl.split("/");
+        if (urlSegments.length <= 2) {
+            throw new ApplicationException("URL is incorrect");
+        }
+        return urlSegments;
     }
 }
