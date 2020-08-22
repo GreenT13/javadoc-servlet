@@ -10,8 +10,8 @@ from repositories, based on given search criteria. Uses a lot of caching to avoi
 # TODO items
 
 ## Tests
+- [x] Thymeleaf tests (https://dzone.com/articles/spring-test-thymeleaf-views)
 - [ ] Integration tests with mocked Maven Central
-- [x] Thymeleaf tests?? https://dzone.com/articles/spring-test-thymeleaf-views
 - [ ] Run through all tests, cleanup code and make some util functions for easily creating objects
 
 ## General code thoughts
@@ -19,4 +19,6 @@ from repositories, based on given search criteria. Uses a lot of caching to avoi
 - [x] Rethink exception catching strategy in ApiDocController
 - [ ] Support for "latest" URLs
 - [ ] Add a "share" button, where you can create a link with specific details (link to class, package, home URL without index.html)
+      https://stackoverflow.com/questions/23466130/spring-mvc-how-do-i-get-current-url-in-thymeleaf
+      https://stackoverflow.com/questions/2222238/httpservletrequest-to-complete-url
 - [ ] Add more to the docs
