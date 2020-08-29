@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class FrontendFormTest {
 
     @Test
-    public void equalsAndHashCodeAreImplemented() {
+    void equalsAndHashCodeAreImplemented() {
         EqualsVerifier.simple().forClass(FrontendForm.class).verify();
     }
 }

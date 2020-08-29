@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 class ZipDetailsCreatorTest {
     @Test
-    public void directoriesAreNotPartOfTheMap() throws IOException {
+    void directoriesAreNotPartOfTheMap() throws IOException {
         // When
         Map<String, byte[]> zipContent = ZipDetailsCreator.determineContentAsMap(TestZipConstants.FILE);
 
@@ -21,7 +21,7 @@ class ZipDetailsCreatorTest {
     }
 
     @Test
-    public void contentOfFilesIsRead() throws IOException {
+    void contentOfFilesIsRead() throws IOException {
         // When
         Map<String, byte[]> zipContent = ZipDetailsCreator.determineContentAsMap(TestZipConstants.FILE);
 
@@ -31,7 +31,7 @@ class ZipDetailsCreatorTest {
     }
 
     @Test
-    public void md5HashIsCorrectlyDetermined() {
+    void md5HashIsCorrectlyDetermined() {
         // When
         String md5Hash = ZipDetailsCreator.determineChecksum(TestZipConstants.FILE);
 

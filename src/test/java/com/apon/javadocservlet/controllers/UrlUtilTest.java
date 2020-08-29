@@ -10,12 +10,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class UrlUtilTest {
+class UrlUtilTest {
     /** String that can be used as context path. Unless a specific value is used, use this one. */
-    private final static String CONTEXT_PATH = "/context-path";
+    private static final String CONTEXT_PATH = "/context-path";
 
     @Test
-    public void homeUrlIsContextPathFollowedBySlash() {
+    void homeUrlIsContextPathFollowedBySlash() {
         // Given
         UrlUtil urlUtil = createUrlUtil(CONTEXT_PATH);
 
@@ -24,7 +24,7 @@ public class UrlUtilTest {
     }
 
     @Test
-    public void correctUrlsAreGenerated() {
+    void correctUrlsAreGenerated() {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "1.0");
         UrlUtil urlUtil = createUrlUtil(CONTEXT_PATH);
@@ -36,7 +36,7 @@ public class UrlUtilTest {
     }
 
     @Test
-    public void correctBaseUrlsAreGenerated() {
+    void correctBaseUrlsAreGenerated() {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "1.0");
         UrlUtil urlUtil = createUrlUtil(CONTEXT_PATH);
@@ -47,7 +47,7 @@ public class UrlUtilTest {
     }
 
     @Test
-    public void contextPathEndingWithSlashIsHandledCorrectly() {
+    void contextPathEndingWithSlashIsHandledCorrectly() {
         // Given
         UrlUtil urlUtil = createUrlUtil(CONTEXT_PATH + "/");
 
@@ -56,7 +56,7 @@ public class UrlUtilTest {
     }
 
     @Test
-    public void exceptionIsThrownIfUrlIsIncorrect() {
+    void exceptionIsThrownIfUrlIsIncorrect() {
         // Given
         UrlUtil urlUtil = createUrlUtil(CONTEXT_PATH + "/");
         String incorrectUrl = "my.group.id/my.artifact.id";

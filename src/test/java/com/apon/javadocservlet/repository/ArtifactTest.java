@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class ArtifactTest {
 
     @Test
-    public void equalsAndHashCodeAreImplemented() {
+    void equalsAndHashCodeAreImplemented() {
         EqualsVerifier.simple().forClass(Artifact.class).verify();
     }
 }

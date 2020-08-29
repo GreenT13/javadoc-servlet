@@ -52,7 +52,7 @@ class JavadocServletApplicationTests {
      * from the {@link ArtifactStorage}.
      */
     @Test
-    public void javadocJarIsCached() throws Exception {
+    void javadocJarIsCached() throws Exception {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "1.0");
         when(artifactStorage.getJavaDocJar(artifact)).thenReturn(TestZipConstants.FILE);

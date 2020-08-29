@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!--suppress HtmlUnknownAttribute -->
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
@@ -86,13 +87,15 @@
     <iframe class="iframe"
             th:src="${apiDocUrl}" onLoad="changeBrowserUrl(this.contentWindow.location);"
             name="classFrame"
-            th:if="${!hasNoJavaDocJar}"></iframe>
+            title="javadoc-content"
+            th:if="${hasJavaDocJar}"></iframe>
 
     <!-- If no javadoc could be found, we show the page indicating the javadoc is missing. -->
     <iframe class="iframe"
             th:src="${@urlUtil.getNoJavaDocUrl()}"
             name="classFrame"
-            th:if="${hasNoJavaDocJar}"></iframe>
+            title="javadoc-content"
+            th:if="${!hasJavaDocJar}"></iframe>
 </div>
 
 <!-- Optional JavaScript -->

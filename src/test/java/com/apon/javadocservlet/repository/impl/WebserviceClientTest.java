@@ -32,7 +32,7 @@ class WebserviceClientTest {
     }
 
     @Test
-    public void testGet() {
+    void testGet() {
         // Given
         String url = "http://localhost:8080/";
         Map<String, String> queryParam = Map.of("key", "value");
@@ -52,7 +52,7 @@ class WebserviceClientTest {
     }
 
     @Test
-    public void testGetJar() {
+    void testGetJar() {
         // Given
         String url = "http://localhost:8080/";
         Map<String, String> queryParam = Map.of("key", "value");

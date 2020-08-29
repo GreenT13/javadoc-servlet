@@ -8,8 +8,8 @@ import com.apon.javadocservlet.repository.impl.WebserviceClient;
 import java.util.Map;
 
 public class MavenCentralApi {
-    final static String MAVEN_CENTRAL_SEARCH_URL = "https://search.maven.org/solrsearch/select";
-    final static String MAVEN_CENTRAL_FILEPATH_URL = "https://search.maven.org/remotecontent";
+    static final String MAVEN_CENTRAL_SEARCH_URL = "https://search.maven.org/solrsearch/select";
+    static final String MAVEN_CENTRAL_FILEPATH_URL = "https://search.maven.org/remotecontent";
 
     private final WebserviceClient webserviceClient;
 

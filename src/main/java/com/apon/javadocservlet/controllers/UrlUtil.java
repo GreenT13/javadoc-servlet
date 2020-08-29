@@ -3,7 +3,7 @@ package com.apon.javadocservlet.controllers;
 import com.apon.javadocservlet.controllers.apidoc.ApiDocController;
 import com.apon.javadocservlet.controllers.frontend.FrontendController;
 import com.apon.javadocservlet.repository.Artifact;
-import com.google.common.annotations.VisibleForTesting;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
@@ -18,25 +18,11 @@ import java.util.Arrays;
  * needed from code base is determining the correct URLs. That is why this class is the only Spring Bean used in templates.
  */
 public class UrlUtil {
-    /** The context path of the application. It will always start with a slash and never end with a slash. */
+    /** The context path of the application. It will never end with a slash. */
     private final String contextPath;
 
     public UrlUtil(ServletContext servletContext) {
-        contextPath = determineContextPath(servletContext);
-    }
-
-    /**
-     * @return The context path. It will always start with a slash and never end with a slash.
-     */
-    private String determineContextPath(ServletContext servletContext) {
-        String contextPath = servletContext.getContextPath();
-
-        // Remove the final slash if it exists, since this is already contained in the API_DOC_URL.
-        if (contextPath.endsWith("/")) {
-            contextPath = contextPath.substring(0, contextPath.length() - 1);
-        }
-
-        return contextPath;
+        contextPath = StringUtils.removeEnd(servletContext.getContextPath(), "/");
     }
 
     /**

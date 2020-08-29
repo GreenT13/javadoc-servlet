@@ -20,10 +20,10 @@ public class JavadocServletApplication {
     public static final long MAX_STORAGE_SIZE_ZIP_FILES_IN_BYTES = 100_000_000;
 
     /** Maximum number of checksums (32 bytes each) of zips we store in cache. */
-    public final static long MAX_NUMBER_OF_ZIP_CHECKSUMS_IN_CACHE = 100_000;
+    public static final long MAX_NUMBER_OF_ZIP_CHECKSUMS_IN_CACHE = 100_000;
 
     /** Cache control settings for returned files in the downloaded javadoc artifacts. */
-    public final static CacheControl CACHE_CONTROL = CacheControl.maxAge(365, TimeUnit.DAYS);
+    public static final CacheControl CACHE_CONTROL = CacheControl.maxAge(365, TimeUnit.DAYS);
 
     public static void main(String[] args) {
         SpringApplication.run(JavadocServletApplication.class, args);

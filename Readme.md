@@ -22,3 +22,4 @@ from repositories, based on given search criteria. Uses a lot of caching to avoi
       https://stackoverflow.com/questions/23466130/spring-mvc-how-do-i-get-current-url-in-thymeleaf
       https://stackoverflow.com/questions/2222238/httpservletrequest-to-complete-url
 - [ ] Add more to the docs
+- [ ] Rethink Artifact/ArtifactVersion/ArtifactVersion.Version object structure

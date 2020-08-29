@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 class FrontendControllerTest {
 
     @Test
-    public void formObjectIsSetForHomePage() {
+    void formObjectIsSetForHomePage() {
         // Given
         FrontendController frontendController = new FrontendController(null, ControllerTestUtil.createUrlUtil());
         Model model = mock(Model.class);
@@ -43,7 +43,7 @@ class FrontendControllerTest {
     }
 
     @Test
-    public void artifactsAreSearched() throws ArtifactSearchException {
+    void artifactsAreSearched() throws ArtifactSearchException {
         // Given
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
         List<Artifact> artifactList = Collections.singletonList(new Artifact("groupId", "artifactId", "version"));
@@ -68,7 +68,7 @@ class FrontendControllerTest {
     }
 
     @Test
-    public void iframeUrlHasDocReplacedWithApiDoc() throws ArtifactSearchException {
+    void iframeUrlHasDocReplacedWithApiDoc() throws ArtifactSearchException {
         // Given
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
         List<Artifact> artifactList = Collections.singletonList(new Artifact("groupId", "artifactId", "version"));
@@ -93,7 +93,7 @@ class FrontendControllerTest {
     }
 
     @Test
-    public void exceptionsAreThrownAsApplicationException() throws ArtifactSearchException {
+    void exceptionsAreThrownAsApplicationException() throws ArtifactSearchException {
         // Given
         // Storage that throws an exception.
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
@@ -112,7 +112,7 @@ class FrontendControllerTest {
     }
 
     @Test
-    public void exceptionIsThrownWhenNoArtifactVersionsAreFound() throws ArtifactSearchException {
+    void exceptionIsThrownWhenNoArtifactVersionsAreFound() throws ArtifactSearchException {
         // Given
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
         doReturn(new ArtifactVersions(Collections.emptyList())).when(artifactStorage).findArtifactVersions(any());

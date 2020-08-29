@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @SuppressFBWarnings(justification = "The fields of SearchResponse and VersionsSearchResponse are incorrectly detected as not filled.")
 public class MavenCentralRepository implements ArtifactStorage {
-    private final static Logger log = LogManager.getLogger(MavenCentralRepository.class);
+    private static final Logger log = LogManager.getLogger(MavenCentralRepository.class);
 
     private final MavenCentralApi mavenCentralApi;
 
@@ -33,7 +33,7 @@ public class MavenCentralRepository implements ArtifactStorage {
     @Override
     public ArtifactVersions findArtifactVersions(Artifact artifact) throws ArtifactSearchException {
         VersionsSearchResponse versionsSearchResponse = mavenCentralApi.findVersions(artifact.getGroupId(), artifact.getArtifactId());
-        return convertSearchResponseToArtifactVersions(versionsSearchResponse, artifact);
+        return convertSearchResponseToArtifactVersions(versionsSearchResponse);
     }
 
     @Override
@@ -44,13 +44,13 @@ public class MavenCentralRepository implements ArtifactStorage {
 
     private List<Artifact> convertSearchResponseToArtifactList(SearchResponse searchResponse) {
         return searchResponse.response.docs.stream()
-                .map((doc) -> new Artifact(doc.groupId, doc.artifactId, doc.latestVersion))
+                .map(doc -> new Artifact(doc.groupId, doc.artifactId, doc.latestVersion))
                 .collect(Collectors.toList());
     }
 
-    private ArtifactVersions convertSearchResponseToArtifactVersions(VersionsSearchResponse versionsSearchResponse, Artifact artifact) {
+    private ArtifactVersions convertSearchResponseToArtifactVersions(VersionsSearchResponse versionsSearchResponse) {
         List<ArtifactVersions.Version> versions = versionsSearchResponse.response.docs.stream()
-                .map((doc) -> new ArtifactVersions.Version(doc.version, doc.ec.contains("-javadoc.jar")))
+                .map(doc -> new ArtifactVersions.Version(doc.version, doc.ec.contains("-javadoc.jar")))
                 .collect(Collectors.toList());
 
         return new ArtifactVersions(versions);

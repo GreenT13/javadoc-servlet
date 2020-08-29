@@ -21,6 +21,7 @@ dependencies {
     implementation("com.google.guava:guava:29.0-jre")
     implementation("com.github.spotbugs:spotbugs-annotations:4.1.1")
     implementation("commons-codec:commons-codec:1.14")
+    implementation("org.apache.commons:commons-lang3:3.11")
 
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")

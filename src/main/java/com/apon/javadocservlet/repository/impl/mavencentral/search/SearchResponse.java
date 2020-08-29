@@ -9,11 +9,11 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressFBWarnings(justification = "This class is filled dynamically (Jackson), which is not seen by SpotBugs.")
 public class SearchResponse {
+    @JsonProperty("response")
     public Response response;
 
     public static class Response {
-        public int numFound;
-        public int start;
+        @JsonProperty("docs")
         public List<Doc> docs;
     }
 
@@ -23,7 +23,9 @@ public class SearchResponse {
         public String groupId;
         @JsonProperty("a")
         public String artifactId;
+        @JsonProperty("latestVersion")
         public String latestVersion;
+        @JsonProperty("ec")
         public List<String> ec;
     }
 }

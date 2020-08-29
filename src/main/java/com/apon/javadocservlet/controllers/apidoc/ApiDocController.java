@@ -19,7 +19,7 @@ import java.util.Optional;
  */
 @Controller
 public class ApiDocController {
-    public final static String API_DOC_URL = "/apidoc/";
+    public static final String API_DOC_URL = "/apidoc/";
 
     private final ZipCache zipCache;
     private final UrlUtil urlUtil;

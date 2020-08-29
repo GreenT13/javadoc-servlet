@@ -30,7 +30,7 @@
                 org.springframework.test.web.servlet.result.MockMvcResultMatchers"/>
         </module>
 
-        <!-- All final static fields should be capitalized and using underscores as separation.
+        <!-- All static final fields should be capitalized and using underscores as separation.
              The only exception is the log variable. -->
         <module name="ConstantName">
             <property name="format" value="^log?$|^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>

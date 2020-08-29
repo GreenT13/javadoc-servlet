@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class FrontendControllerThymeleafTest {
+class FrontendControllerThymeleafTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,7 +33,7 @@ public class FrontendControllerThymeleafTest {
     private ArtifactStorage artifactStorage;
 
     @Test
-    public void testHomepage() throws Exception {
+    void testHomepage() throws Exception {
         // Given
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/");
 
@@ -44,7 +44,7 @@ public class FrontendControllerThymeleafTest {
     }
 
     @Test
-    public void searchOnHomepageShowsArtifactInformation() throws Exception {
+    void searchOnHomepageShowsArtifactInformation() throws Exception {
         // Given
         String groupId = "my.group.id";
         String artifactId = "my.artifact.id";
@@ -70,7 +70,7 @@ public class FrontendControllerThymeleafTest {
     }
 
     @Test
-    public void testMissingJavadoc() throws Exception {
+    void testMissingJavadoc() throws Exception {
         // Given
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(FrontendController.MISSING_JAVADOC_URL);
 
@@ -82,7 +82,7 @@ public class FrontendControllerThymeleafTest {
     }
 
     @Test
-    public void docAutomaticallyRedirectsToIndexHtml() throws Exception {
+    void docAutomaticallyRedirectsToIndexHtml() throws Exception {
         // Given
         String groupId = "my.group.id";
         String artifactId = "my.artifact.id";

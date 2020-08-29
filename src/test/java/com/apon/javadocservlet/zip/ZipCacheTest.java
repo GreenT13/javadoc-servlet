@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 class ZipCacheTest {
     @Test
-    public void happyFlow() throws ArtifactSearchException {
+    void happyFlow() throws ArtifactSearchException {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
@@ -32,7 +32,7 @@ class ZipCacheTest {
     }
 
     @Test
-    public void throwExceptionWhenZipCouldNotBeFound() throws ArtifactSearchException {
+    void throwExceptionWhenZipCouldNotBeFound() throws ArtifactSearchException {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
@@ -44,7 +44,7 @@ class ZipCacheTest {
     }
 
     @Test
-    public void returnEmptyIfFileCouldNotBeFound() throws ArtifactSearchException {
+    void returnEmptyIfFileCouldNotBeFound() throws ArtifactSearchException {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
@@ -59,7 +59,7 @@ class ZipCacheTest {
     }
 
     @Test
-    public void checksumCacheIsFilledAfterRetrievingFile() throws ArtifactSearchException {
+    void checksumCacheIsFilledAfterRetrievingFile() throws ArtifactSearchException {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
@@ -75,7 +75,7 @@ class ZipCacheTest {
     }
 
     @Test
-    public void correctChecksumIsRetrieved() throws ArtifactSearchException {
+    void correctChecksumIsRetrieved() throws ArtifactSearchException {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
@@ -90,7 +90,7 @@ class ZipCacheTest {
     }
 
     @Test
-    public void checksumThrowsErrorWhenCacheThrowsException() throws ArtifactSearchException {
+    void checksumThrowsErrorWhenCacheThrowsException() throws ArtifactSearchException {
         // Given
         Artifact artifact = new Artifact("groupId", "artifactId", "version");
         ArtifactStorage artifactStorage = mock(ArtifactStorage.class);
