@@ -1,6 +1,6 @@
 ## Javadoc web application
-[![Build Status](https://travis-ci.com/GreenT13/javadoc-web-application.svg?branch=master)](https://travis-ci.com/GreenT13/javadoc-web-application)
-[![codecov](https://codecov.io/gh/GreenT13/javadoc-web-application/branch/master/graph/badge.svg)](https://codecov.io/gh/GreenT13/javadoc-web-application)
+[![Build Status](https://travis-ci.com/ricoapon/javadoc-web-application.svg?branch=master)](https://travis-ci.com/ricoapon/javadoc-web-application)
+[![codecov](https://codecov.io/gh/ricoapon/javadoc-web-application/branch/master/graph/badge.svg)](https://codecov.io/gh/ricoapon/javadoc-web-application)
 [![Docs](https://img.shields.io/badge/docs-Github%20Pages-blue)](https://greent13.github.io/javadoc-web-application/)
 [![Deployment](https://img.shields.io/badge/deployment-Heroku-brightgreen)](https://javadoc-web-application.herokuapp.com/)
 
